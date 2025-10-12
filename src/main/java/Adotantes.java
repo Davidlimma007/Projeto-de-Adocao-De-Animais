@@ -35,6 +35,7 @@ public class Adotantes {
             throw new AnimalIndisponivelException("O animal '" + animal.getNome() + "' já foi adotado por outra pessoa!");
         }
 
+        //adota o animal com isso atualiza na lista o animal e na classe animal troca de false para true
         animaisAdotados.add(animal);
         animal.setAdotado(true);
 
