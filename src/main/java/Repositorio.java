@@ -64,7 +64,7 @@ public class Repositorio {
         SalvarAnimais();
     }
 
-    // Corrigido: Movido return null para fora do for
+    //
     public Animal buscarAnimalPorNome(String nome){
         for (Animal a : animais){
             if(a.getNome().equalsIgnoreCase(nome)) {
@@ -87,7 +87,7 @@ public class Repositorio {
         return new ArrayList<>(animais);
     }
 
-    // Salvar Animais (RETIFICADO: Inclui o tipo do animal para persistência)
+    // Salvar Animais
     private void SalvarAnimais() {
         try(PrintWriter pw = new PrintWriter(new FileWriter(arquivoAnimais))){
             for(Animal a : animais){
@@ -108,7 +108,7 @@ public class Repositorio {
         }
     }
 
-    // Carregar Animais (RETIFICADO: Lê o tipo e instancia a classe correta)
+    // Carregar Animais
     private void carregarAnimais() {
         File file = new File(arquivoAnimais);
         if (!file.exists()) return;
@@ -245,7 +245,7 @@ public class Repositorio {
         }
     }
 
-    // Carrega Adocoes (Retificado para buscar objetos por ID)
+    // Carrega Adocoes 
     private void carregarAdocoes() {
         File file = new File(arquivoAdocoes);
         if (!file.exists()) return;
