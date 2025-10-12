@@ -35,36 +35,36 @@ public class Adotante {
         this.animaisAdotados = new ArrayList<>();
     }
 
-        public int getId () {
-            return id;
+        public int getId() {
+        return id;
         }
 
-        public void setId ( int id){
-            this.id = id;
+        public void setId(int id){
+        this.id = id;
         }
 
-        public String getNome () {
-            return nome;
+        public String getNome() {
+        return nome;
         }
 
-        public void setNome (String nome){
-            this.nome = nome;
+        public void setNome(String nome){
+        this.nome = nome;
         }
 
-        public String getSexo () {
-            return sexo;
+        public String getSexo() {
+        return sexo;
         }
 
-        public void setSexo (String sexo){
+        public void setSexo(String sexo) {
             this.sexo = sexo;
         }
 
-        public LocalDate getDataNascimento () {
-            return dataNascimento;
+        public LocalDate getDataNascimento() {
+        return dataNascimento;
         }
 
-        public void setDataNascimento (LocalDate dataNascimento){
-            this.dataNascimento = dataNascimento;
+        public void setDataNascimento(LocalDate dataNascimento){
+        this.dataNascimento = dataNascimento;
         }
 
         public List<Animal> getAnimaisAdotados() {
