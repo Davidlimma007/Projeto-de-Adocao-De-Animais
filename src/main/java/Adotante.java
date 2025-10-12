@@ -70,4 +70,8 @@ public class Adotante {
         public List<Animal> getAnimaisAdotados() {
         return animaisAdotados;
         }
+
+        public static int getLimiteAdocoes(){
+        return LIMITE_ADOCOES;
+        }
 }
