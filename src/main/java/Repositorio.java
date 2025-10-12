@@ -245,7 +245,7 @@ public class Repositorio {
         }
     }
 
-    // Carrega Adocoes 
+    // Carrega Adocoes
     private void carregarAdocoes() {
         File file = new File(arquivoAdocoes);
         if (!file.exists()) return;
