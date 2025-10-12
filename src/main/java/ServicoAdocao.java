@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class ServicoAdocao {
     private Repositorio repositorio;
 
@@ -25,6 +27,7 @@ public class ServicoAdocao {
         // Adiciona à lista interna do Adotante (para contagem)
         adotante.getAnimaisAdotados().add(animal);
 
+        LocalDate dataAdocao;
         Adocao novaAdocao = new Adocao(0, adotante, animal, dataAdocao);
         repositorio.adicionarAdocao(novaAdocao);
 
