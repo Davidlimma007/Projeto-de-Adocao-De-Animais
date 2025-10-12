@@ -20,6 +20,22 @@ public class Adotantes {
         this.animaisAdotados = new ArrayList<>();
     }
 
+    // Sobrecarga: construtor sem id
+    public Adotantes(String nome, String sexo, LocalDate dataNascimento) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.animaisAdotados = new ArrayList<>();
+    }
+
+    // Sobrecarga: construtor só com nome e sexo
+    public Adotantes(String nome, String sexo) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.animaisAdotados = new ArrayList<>();
+    }
+
+    //metodo principal para adotar um animal
     public void adotarAnimal(Animal animal) throws LimiteAdocoesException, AnimalIndisponivelException {
 
         // Regra 1: limite de 3 adoções
@@ -39,7 +55,20 @@ public class Adotantes {
         animaisAdotados.add(animal);
         animal.setAdotado(true);
 
-        System.out.println("✅ " + nome + " adotou o animal: " + animal.getNome());
+        System.out.println(nome + " adotou o animal: " + animal.getNome());
+    }
+
+    // Sobrecarga: adotar animal pelo nome, buscando numa lista
+    public void adotarAnimal(String nomeAnimal, List<Animal> animaisDisponiveis)
+            throws LimiteAdocoesException, AnimalIndisponivelException {
+
+        for (Animal animal : animaisDisponiveis) {
+            if (animal.getNome().equalsIgnoreCase(nomeAnimal)) {
+                this.adotarAnimal(animal);
+                return;
+            }
+        }
+        System.out.println("Animal com o nome '" + nomeAnimal + "' não encontrado!");
     }
 
         public int getId () {
@@ -72,5 +101,9 @@ public class Adotantes {
 
         public void setDataNascimento (LocalDate dataNascimento){
             this.dataNascimento = dataNascimento;
+        }
+
+        public List<Animal> getAnimaisAdotados() {
+        return animaisAdotados;
         }
 }
