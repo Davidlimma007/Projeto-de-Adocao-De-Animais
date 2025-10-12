@@ -148,7 +148,7 @@ public class Repositorio {
                 // Formato: id|idAdotante|idAnimal|dataAdocao
                 writer.println(
                         adocao.getId() + DELIMITADOR +
-                                adocao.getAdotantes().getId() + DELIMITADOR +
+                                adocao.getAdotante().getId() + DELIMITADOR +
                                 adocao.getAnimal().getId() + DELIMITADOR +
                                 adocao.getDataAdocao().toString()
                 );
@@ -310,7 +310,7 @@ public class Repositorio {
     public List<Adocao> listarAdocoesPorAdotante(int idAdotante) {
         List<Adocao> filtradas = new ArrayList<>();
         for (Adocao adocao : adocoes) {
-            if (adocao.getAdotantes().getId() == idAdotante) {
+            if (adocao.getAdotante().getId() == idAdotante) {
                 filtradas.add(adocao);
             }
         }

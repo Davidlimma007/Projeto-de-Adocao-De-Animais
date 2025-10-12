@@ -6,7 +6,7 @@ public class Adocao {
     private Animal animal;
     private LocalDate dataAdocao;
 
-    public Adocao(int id, Adotante adotante, Animal animal, LocalDate dataAdocao) {
+    public Adocao(int id, Adotante adotante, Animal animal) {
         this.id = id;
         this.adotante = adotante;
         this.animal = animal;
@@ -60,6 +60,4 @@ public class Adocao {
     public void setDataAdocao(LocalDate dataAdocao) {
         this.dataAdocao = dataAdocao;
     }
-
-
 }
