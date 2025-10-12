@@ -34,6 +34,11 @@ public class Adotantes {
         if (animal.isAdotado()) {
             throw new AnimalIndisponivelException("O animal '" + animal.getNome() + "' já foi adotado por outra pessoa!");
         }
+
+        animaisAdotados.add(animal);
+        animal.setAdotado(true);
+
+        System.out.println("✅ " + nome + " adotou o animal: " + animal.getNome());
     }
 
         public int getId () {
