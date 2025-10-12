@@ -2,15 +2,23 @@ import java.time.LocalDate;
 
 public class Adocao {
     private int id;
-    private Adotantes adotantes;
+    private Adotante adotante;
     private Animal animal;
     private LocalDate dataAdocao;
 
-    public Adocao(int id, Adotantes adotantes, Animal animal, LocalDate dataAdocao) {
+    public Adocao(int id, Adotante adotante, Animal animal, LocalDate dataAdocao) {
         this.id = id;
-        this.adotantes = adotantes;
+        this.adotante = adotante;
         this.animal = animal;
         this.dataAdocao = LocalDate.now(); //Data de registro da adoção
+    }
+
+    // Sobrecarga de Construtor (Para o Repositório - Carregamento de dados)
+    public Adocao(int id, Adotante adotante, Animal animal, LocalDate dataAdocao) {
+        this.id = id;
+        this.adotante = adotante;
+        this.animal = animal;
+        this.dataAdocao = dataAdocao;
     }
 
     // na parte de (%s) é para as subclasses de Animal por isso coloca animal.getClass().getSimpleName()
@@ -29,12 +37,12 @@ public class Adocao {
         this.id = id;
     }
 
-    public Adotantes getAdotantes() {
-        return adotantes;
+    public Adotante getAdotante() {
+        return adotante;
     }
 
-    public void setAdotantes(Adotantes adotantes) {
-        this.adotantes = adotantes;
+    public void setAdotante(Adotante adotante) {
+        this.adotante = adotante;
     }
 
     public Animal getAnimal() {

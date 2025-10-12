@@ -8,7 +8,7 @@ public class Repositorio {
 
     // Listas em memória para o CRUD
     private List<Animal> animais = new ArrayList<>();
-    private List<Adotantes> adotantes = new ArrayList<>();
+    private List<Adotante> adotantes = new ArrayList<>();
     private List<Adocao> adocoes = new ArrayList<>();
 
     // Geradores de ID (garante ID único e sequencial para novos registros)
@@ -104,7 +104,7 @@ public class Repositorio {
 
     private void salvarAdotantes() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_ADOTANTES))) {
-            for (Adotantes adotante : adotantes) {
+            for (Adotante adotante : adotantes) {
                 // Formato: id|nome|sexo|dataNascimento
                 writer.println(
                         adotante.getId() + DELIMITADOR +
@@ -132,7 +132,7 @@ public class Repositorio {
                 String sexo = dados[2];
                 LocalDate dataNascimento = LocalDate.parse(dados[3]);
 
-                Adotantes adotante = new Adotantes(id, nome, sexo, dataNascimento);
+                Adotante adotante = new Adotante(id, nome, sexo, dataNascimento);
                 adotantes.add(adotante);
                 nextAdotanteId = id + 1;
             }
@@ -173,7 +173,7 @@ public class Repositorio {
                 LocalDate dataAdocao = LocalDate.parse(dados[3]);
 
                 // É crucial que Adotantes e Animais já tenham sido carregados!
-                Adotantes adotante = buscarAdotantePorId(idAdotante);
+                Adotante adotante = buscarAdotantePorId(idAdotante);
                 Animal animal = buscarAnimalPorId(idAnimal);
 
                 if (adotante != null && animal != null) {
@@ -245,20 +245,20 @@ public class Repositorio {
     }
 
     // Cadastrar
-    public void adicionarAdotante(Adotantes adotante) {
+    public void adicionarAdotante(Adotante adotante) {
         adotante.setId(nextAdotanteId++);
         adotantes.add(adotante);
         salvarAdotantes(); // Salva a alteração
     }
 
     // Listar
-    public List<Adotantes> listarAdotantes() {
+    public List<Adotante> listarAdotantes() {
         return adotantes;
     }
 
     // Buscar (necessário para a Adoção)
-    public Adotantes buscarAdotantePorId(int id) {
-        for (Adotantes adotante : adotantes) {
+    public Adotante buscarAdotantePorId(int id) {
+        for (Adotante adotante : adotantes) {
             if (adotante.getId() == id) {
                 return adotante;
             }
@@ -267,7 +267,7 @@ public class Repositorio {
     }
 
     // Atualizar
-    public boolean atualizarAdotante(Adotantes adotanteAtualizado) {
+    public boolean atualizarAdotante(Adotante adotanteAtualizado) {
         for (int i = 0; i < adotantes.size(); i++) {
             if (adotantes.get(i).getId() == adotanteAtualizado.getId()) {
                 adotantes.set(i, adotanteAtualizado);
@@ -281,7 +281,7 @@ public class Repositorio {
     // Remover
     public boolean removerAdotante(int id) {
         // Regra de negócio: adotante com animais não pode ser removido
-        Adotantes adotante = buscarAdotantePorId(id);
+        Adotante adotante = buscarAdotantePorId(id);
         if (adotante != null && !adotante.getAnimaisAdotados().isEmpty()) {
             System.err.println("Erro: Não é possível remover um adotante com animais adotados.");
             return false;
