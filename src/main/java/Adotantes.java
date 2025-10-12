@@ -35,42 +35,6 @@ public class Adotantes {
         this.animaisAdotados = new ArrayList<>();
     }
 
-    //metodo principal para adotar um animal
-    public void adotarAnimal(Animal animal) throws LimiteAdocoesException, AnimalIndisponivelException {
-
-        // Regra 1: limite de 3 adoções
-        //.size() percorre a lista
-        if (animaisAdotados.size() >= LIMITE_ADOCOES) {
-            throw new LimiteAdocoesException("O adotante " + nome + " já atingiu o limite máximo de "
-                    + LIMITE_ADOCOES + " animais adotados!");
-        }
-
-        // Regra 2: animal já foi adotado
-        //pega na classe animal e vê se o boolean esta tru para lançar a exception
-        if (animal.isAdotado()) {
-            throw new AnimalIndisponivelException("O animal '" + animal.getNome() + "' já foi adotado por outra pessoa!");
-        }
-
-        //adota o animal com isso atualiza na lista o animal e na classe animal troca de false para true
-        animaisAdotados.add(animal);
-        animal.setAdotado(true);
-
-        System.out.println(nome + " adotou o animal: " + animal.getNome());
-    }
-
-    // Sobrecarga: adotar animal pelo nome, buscando numa lista
-    public void adotarAnimal(String nomeAnimal, List<Animal> animaisDisponiveis)
-            throws LimiteAdocoesException, AnimalIndisponivelException {
-
-        for (Animal animal : animaisDisponiveis) {
-            if (animal.getNome().equalsIgnoreCase(nomeAnimal)) {
-                this.adotarAnimal(animal);
-                return;
-            }
-        }
-        System.out.println("Animal com o nome '" + nomeAnimal + "' não encontrado!");
-    }
-
         public int getId () {
             return id;
         }
