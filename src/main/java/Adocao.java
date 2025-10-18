@@ -34,5 +34,4 @@ public class Adocao {
     public void setDataAdocao(LocalDate dataAdocao) {
         this.dataAdocao = dataAdocao;
     }
-
 }
