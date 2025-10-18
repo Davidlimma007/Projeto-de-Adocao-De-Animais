@@ -56,4 +56,21 @@ public class Adotante {
         public static int getLimiteAdocoes(){
         return LIMITE_ADOCOES;
         }
+
+        public boolean atingiuLimite(){
+        return this.animaisAdotados.size() >= LIMITE_ADOCOES;
+        }
+
+        public void adcionarAnimal(Animal animal) throws LimiteAdocoesException{
+            if(atingiuLimite()){
+                throw new LimiteAdocoesException("O atodante " + getNome() + " atingiu o limite de "
+                                                  + LIMITE_ADOCOES + "adoções");
+            }
+            this.animaisAdotados.add(animal);
+        }
+
+    @Override
+    public String toString() {
+        return "Adotante: " + getNome() + ". Animais adotados: " + animaisAdotados.size();
+    }
 }
