@@ -1,7 +1,6 @@
 import java.time.LocalDate;
 
 public abstract class Animal {
-    private int id;
     private String nome;
     private double peso;
     private double altura;
@@ -9,8 +8,7 @@ public abstract class Animal {
     private LocalDate dataNascimento;
     private boolean adotado;
 
-    public Animal(int id, String nome, double peso, double altura, String cor, LocalDate dataNascimento) {
-        this.id = id;
+    public Animal(String nome, double peso, double altura, String cor, LocalDate dataNascimento) {
         this.nome = nome;
         this.peso = peso;
         this.altura = altura;
@@ -24,14 +22,6 @@ public abstract class Animal {
     @Override
     public String toString() {
         return nome + (adotado ? " (Adotado)" : " (Disponível)");
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNome() {

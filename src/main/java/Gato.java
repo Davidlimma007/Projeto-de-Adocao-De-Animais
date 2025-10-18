@@ -2,8 +2,8 @@ import java.time.LocalDate;
 
 public class Gato extends Animal implements CuidadosEspeciais{
 
-    public Gato(int id, String nome, double peso, double altura, String cor, LocalDate dataNascimento) {
-        super(id, nome, peso, altura, cor, dataNascimento);
+    public Gato(String nome, double peso, double altura, String cor, LocalDate dataNascimento) {
+        super(nome, peso, altura, cor, dataNascimento);
     }
 
     @Override

@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Adotante {
-    private int id;
     private String nome;
     private String sexo;
     private LocalDate dataNascimento;
@@ -12,15 +11,6 @@ public class Adotante {
     private static final int LIMITE_ADOCOES = 3;
 
     //construtor com a inicialização da lista animais adotados
-    public Adotante(int id, String nome, String sexo, LocalDate dataNascimento) {
-        this.id = id;
-        this.nome = nome;
-        this.sexo = sexo;
-        this.dataNascimento = dataNascimento;
-        this.animaisAdotados = new ArrayList<>();
-    }
-
-    // Sobrecarga: construtor sem id
     public Adotante(String nome, String sexo, LocalDate dataNascimento) {
         this.nome = nome;
         this.sexo = sexo;
@@ -34,14 +24,6 @@ public class Adotante {
         this.sexo = sexo;
         this.animaisAdotados = new ArrayList<>();
     }
-
-        public int getId() {
-        return id;
-        }
-
-        public void setId(int id){
-        this.id = id;
-        }
 
         public String getNome() {
         return nome;

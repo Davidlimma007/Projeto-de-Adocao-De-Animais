@@ -1,24 +1,14 @@
 import java.time.LocalDate;
 
 public class Adocao {
-    private int id;
     private Adotante adotante;
     private Animal animal;
     private LocalDate dataAdocao;
 
-    public Adocao(int id, Adotante adotante, Animal animal) {
-        this.id = id;
+    public Adocao(Adotante adotante, Animal animal) {
         this.adotante = adotante;
         this.animal = animal;
         this.dataAdocao = LocalDate.now();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Adotante getAdotante() {
@@ -45,8 +35,4 @@ public class Adocao {
         this.dataAdocao = dataAdocao;
     }
 
-    @Override
-    public String toString() {
-        return id + " | " + adotante.getId() + " | " + animal.getId() + " | " + dataAdocao.toString();
-    }
 }
