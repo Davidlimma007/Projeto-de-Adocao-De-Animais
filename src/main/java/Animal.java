@@ -71,4 +71,11 @@ public abstract class Animal {
     public void setAdotado(boolean adotado) {
         this.adotado = adotado;
     }
+
+    public void serAdotado(){
+        if(isAdotado()){
+            throw new AnimalIndisponivelException("O animal já foi adotado");
+        }
+        this.setAdotado(true);
+    }
 }

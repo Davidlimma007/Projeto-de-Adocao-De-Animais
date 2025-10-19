@@ -11,10 +11,6 @@ public class ServicoAdocao {
         Adocao novaAdocao = null;
 
         try{
-            if(animal.isAdotado()){
-                throw new AnimalIndisponivelException("O animal já foi adotado");
-            }
-
             adotante.adcionarAnimal(animal);
 
             animal.setAdotado(true);
