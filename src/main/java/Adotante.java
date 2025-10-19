@@ -64,7 +64,7 @@ public class Adotante {
         public void adcionarAnimal(Animal animal) throws LimiteAdocoesException{
             if(atingiuLimite()){
                 throw new LimiteAdocoesException("O atodante " + getNome() + " atingiu o limite de "
-                                                  + LIMITE_ADOCOES + "adoções");
+                                                  + LIMITE_ADOCOES + " adoções");
             }
             this.animaisAdotados.add(animal);
         }
