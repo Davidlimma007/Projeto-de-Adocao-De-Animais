@@ -1,3 +1,10 @@
+import exceptions.AnimalIndisponivelException;
+import exceptions.LimiteAdocoesException;
+import model.Adocao;
+import model.Adotante;
+import model.Animal;
+import repository.MySQLRepositorio;
+
 public class ServicoAdocao {
     private MySQLRepositorio mySQLRepositorio;
 

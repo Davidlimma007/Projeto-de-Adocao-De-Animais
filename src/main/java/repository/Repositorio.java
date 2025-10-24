@@ -1,3 +1,7 @@
+import model.Adocao;
+import model.Adotante;
+import model.Animal;
+
 public interface Repositorio {
 
     void salvarAdotante(Adotante adotante);
