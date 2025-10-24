@@ -1,3 +1,5 @@
+package service;
+
 import exceptions.AnimalIndisponivelException;
 import exceptions.LimiteAdocoesException;
 import model.Adocao;
