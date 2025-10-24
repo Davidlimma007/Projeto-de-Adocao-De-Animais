@@ -5,14 +5,16 @@ public abstract class Animal {
     private double peso;
     private double altura;
     private String cor;
+    private String sexo;
     private LocalDate dataNascimento;
     private boolean adotado;
 
-    public Animal(String nome, double peso, double altura, String cor, LocalDate dataNascimento) {
+    public Animal(String nome, double peso, double altura, String cor, String sexo, LocalDate dataNascimento) {
         this.nome = nome;
         this.peso = peso;
         this.altura = altura;
         this.cor = cor;
+        this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.adotado = false;
     }
@@ -54,6 +56,14 @@ public abstract class Animal {
 
     public void setCor(String cor) {
         this.cor = cor;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
     public LocalDate getDataNascimento() {
