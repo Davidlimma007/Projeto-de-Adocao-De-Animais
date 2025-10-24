@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BancoDados {
+public class MySQLRepositorio {
 
     // criando a lista internas de animais disponiveis e pessoas cadastradas
     private List<Animal> animais = new ArrayList<>();

@@ -1,8 +1,8 @@
 public class ServicoAdocao {
-    private BancoDados bancoDados;
+    private MySQLRepositorio mySQLRepositorio;
 
-    public ServicoAdocao(BancoDados bancoDados) {
-        this.bancoDados = bancoDados;
+    public ServicoAdocao(MySQLRepositorio mySQLRepositorio) {
+        this.mySQLRepositorio = mySQLRepositorio;
     }
 
     public Adocao realizarAdoção(Adotante adotante, Animal animal){
