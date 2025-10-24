@@ -1,4 +1,5 @@
-public class MySQLRepositorio {
+package repository;
 
+public class MySQLRepositorio {
 
 }

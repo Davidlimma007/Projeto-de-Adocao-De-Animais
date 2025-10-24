@@ -1,3 +1,5 @@
+package repository;
+
 import model.Adocao;
 import model.Adotante;
 import model.Animal;
