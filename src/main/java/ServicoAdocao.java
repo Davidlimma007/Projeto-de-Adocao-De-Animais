@@ -1,10 +1,8 @@
-import javax.xml.transform.Source;
-
 public class ServicoAdocao {
-    private Repositorio repositorio;
+    private BancoDados bancoDados;
 
-    public ServicoAdocao(Repositorio repositorio) {
-        this.repositorio = repositorio;
+    public ServicoAdocao(BancoDados bancoDados) {
+        this.bancoDados = bancoDados;
     }
 
     public Adocao realizarAdoção(Adotante adotante, Animal animal){
