@@ -15,7 +15,6 @@ public class Adotante {
         this.nome = nome;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
-        this.animaisAdotados = new ArrayList<>();
     }
 
     // Sobrecarga: construtor só com nome e sexo
