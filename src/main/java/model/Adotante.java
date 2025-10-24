@@ -1,5 +1,6 @@
+package model;
+
 import exceptions.LimiteAdocoesException;
-import model.Animal;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -73,6 +74,6 @@ public class Adotante {
 
     @Override
     public String toString() {
-        return "Adotante: " + getNome() + ". Animais adotados: " + animaisAdotados.size();
+        return "model.Adotante: " + getNome() + ". Animais adotados: " + animaisAdotados.size();
     }
 }

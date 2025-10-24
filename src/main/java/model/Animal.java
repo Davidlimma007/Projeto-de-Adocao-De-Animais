@@ -1,3 +1,7 @@
+package model;
+
+import exceptions.AnimalIndisponivelException;
+
 import java.time.LocalDate;
 
 public abstract class Animal {
