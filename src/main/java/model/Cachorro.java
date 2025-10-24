@@ -1,11 +1,11 @@
-import model.Animal;
+package model;
 
 import java.time.LocalDate;
 
-public class Cachorro extends Animal implements CuidadosEspeciais{
+public class Cachorro extends Animal implements CuidadosEspeciais {
 
-    public Cachorro(String nome, double peso, double altura, String cor, LocalDate dataNascimento) {
-        super(nome, peso, altura, cor, dataNascimento);
+    public Cachorro(String nome, double peso, double altura, String cor, String sexo, LocalDate dataNascimento) {
+        super(nome, peso, altura, cor, sexo, dataNascimento);
     }
 
     @Override
