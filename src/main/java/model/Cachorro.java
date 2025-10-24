@@ -15,11 +15,11 @@ public class Cachorro extends Animal implements CuidadosEspeciais {
 
     @Override
     public void vacinar() {
-        System.out.println("model.Animal tomou Vacina");
+        System.out.println("O Cachorro " + getNome() + " tomou Vacina");
     }
 
     @Override
     public void vermifugar() {
-        System.out.println("model.Animal tomou vermifugar");
+        System.out.println("O Cachorro " + getNome() + " foi vermifugado");
     }
 }
