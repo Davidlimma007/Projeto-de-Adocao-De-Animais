@@ -1,3 +1,6 @@
+import exceptions.LimiteAdocoesException;
+import model.Animal;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +63,7 @@ public class Adotante {
         return this.animaisAdotados.size() >= LIMITE_ADOCOES;
         }
 
-        public void adcionarAnimal(Animal animal) throws LimiteAdocoesException{
+        public void adcionarAnimal(Animal animal) throws LimiteAdocoesException {
             if(atingiuLimite()){
                 throw new LimiteAdocoesException("O atodante " + getNome() + " atingiu o limite de "
                                                   + LIMITE_ADOCOES + " adoções");

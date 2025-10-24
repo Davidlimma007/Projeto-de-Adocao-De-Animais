@@ -1,3 +1,5 @@
+import model.Animal;
+
 import java.time.LocalDate;
 
 public class Adocao {

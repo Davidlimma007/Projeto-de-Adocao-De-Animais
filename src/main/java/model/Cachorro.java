@@ -1,3 +1,5 @@
+import model.Animal;
+
 import java.time.LocalDate;
 
 public class Cachorro extends Animal implements CuidadosEspeciais{
@@ -13,11 +15,11 @@ public class Cachorro extends Animal implements CuidadosEspeciais{
 
     @Override
     public void vacinar() {
-        System.out.println("Animal tomou Vacina");
+        System.out.println("model.Animal tomou Vacina");
     }
 
     @Override
     public void vermifugar() {
-        System.out.println("Animal tomou vermifugar");
+        System.out.println("model.Animal tomou vermifugar");
     }
 }
