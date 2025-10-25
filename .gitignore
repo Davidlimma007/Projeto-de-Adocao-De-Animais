@@ -1,0 +1,17 @@
+# Exclusões padrão do IntelliJ
+/shelf/
+/.idea/workspace.xml
+
+# Configurações do Projeto e IDE
+.idea/
+*.iml
+/out/
+# Driver JDBC (opcional, mas mantém o repo limpo)
+/lib/mysql-connector-j-9.5.0.jar
+
+# Docker e Arquivos de Persistência do Banco de Dados (CRÍTICO)
+/mysql_data/
+
+# Pastas de build/compilação (para o futuro com Maven/Gradle)
+/target/
+/build/
