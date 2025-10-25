@@ -25,7 +25,6 @@ public class MySQLRepositorio implements Repositorio{
             // Lança um erro fatal se o Java não encontrar o 'tradutor'
             throw new RuntimeException("Driver MySQL não encontrado.", e);
         }
-
         // Tenta estabelecer a conexão usando o URL, Usuário e Senha
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
