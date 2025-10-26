@@ -8,21 +8,21 @@ import java.util.List;
 
 public class Adotante {
     private String nome;
-    private String sexo;
+    private char sexo;
     private LocalDate dataNascimento;
     private List<Animal> animaisAdotados = new ArrayList<>();
 
     private static final int LIMITE_ADOCOES = 3;
 
     //construtor com a inicialização da lista animais adotados
-    public Adotante(String nome, String sexo, LocalDate dataNascimento) {
+    public Adotante(String nome, char sexo, LocalDate dataNascimento) {
         this.nome = nome;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
     }
 
     // Sobrecarga: construtor só com nome e sexo
-    public Adotante(String nome, String sexo) {
+    public Adotante(String nome, char sexo) {
         this.nome = nome;
         this.sexo = sexo;
         this.animaisAdotados = new ArrayList<>();
@@ -36,11 +36,11 @@ public class Adotante {
         this.nome = nome;
         }
 
-        public String getSexo() {
+        public char getSexo() {
         return sexo;
         }
 
-        public void setSexo(String sexo) {
+        public void setSexo(char sexo) {
             this.sexo = sexo;
         }
 
