@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Adotante {
+    private int id;
     private String nome;
     private char sexo;
     private LocalDate dataNascimento;
@@ -21,12 +22,15 @@ public class Adotante {
         this.dataNascimento = dataNascimento;
     }
 
-    // Sobrecarga: construtor só com nome e sexo
-    public Adotante(String nome, char sexo) {
+    //construtor sobrecarregado
+    public Adotante(int id, String nome, char sexo, LocalDate dataNascimento) {
+        this.id = id;
         this.nome = nome;
         this.sexo = sexo;
-        this.animaisAdotados = new ArrayList<>();
+        this.dataNascimento = dataNascimento;
     }
+
+        public int getId(){ return id;}
 
         public String getNome() {
         return nome;
@@ -76,4 +80,5 @@ public class Adotante {
     public String toString() {
         return "model.Adotante: " + getNome() + ". Animais adotados: " + animaisAdotados.size();
     }
+
 }

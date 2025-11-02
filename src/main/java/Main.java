@@ -1,39 +1,35 @@
-import model.Adotante; // Para criar o objeto Adotante
-import repository.MySQLRepositorio; // Para acessar o repositório
-import java.time.LocalDate; // Para a data
-import java.util.Scanner; // Para a interação com o usuário
+import model.Adotante;
+import repository.MySQLRepositorio;
+import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Colocamos tudo dentro de um try-catch por causa do 'throws Exception' no salvarAdotante
+        // 1. Instanciar o Repositório: Declaramos aqui para que seja acessível a todos os blocos (Salvar e Buscar).
+        MySQLRepositorio repositorio = new MySQLRepositorio();
+
+        // === BLOCO 1: CADASTRO E SALVAMENTO (usando Scanner) ===
         try (Scanner scanner = new Scanner(System.in)) {
 
-            // 1. Instanciar o Repositório
-            MySQLRepositorio repositorio = new MySQLRepositorio();
-
-            // Opcional: Teste de conexão (mantido do passo anterior, mas não é obrigatório rodar sempre)
+            // Opcional: Teste de conexão (mantido do passo anterior)
             if (!repositorio.testarConexao()) {
                 System.out.println("Não é possível continuar: Falha na conexão inicial com o banco.");
-                return; // Encerra o programa se a conexão falhar
+                // Decidimos não dar 'return' para que o teste de busca ainda tente rodar.
             }
 
-            // -----------------------------------------------------------------
             // 2. Coleta de Dados do Usuário
             System.out.println("\n--- Cadastro de Adotante ---");
-
             System.out.print("Digite o nome completo do Adotante: ");
             String nome = scanner.nextLine();
-
             System.out.print("Digite o sexo (M/F): ");
-            // next().charAt(0) pega o primeiro caractere da entrada
             char sexo = scanner.next().toUpperCase().charAt(0);
 
-            // Para simplificar o teste, usaremos uma data de nascimento fixa
+            // Data fixa para teste
             LocalDate dataNascimento = LocalDate.of(1985, 10, 26);
             System.out.println("Data de Nascimento: " + dataNascimento + " (Fixa para o teste)");
 
-            // 3. Criar o Objeto
+            // 3. Criar o Objeto (CORRETO: sem ID, ele será gerado pelo banco)
             Adotante novoAdotante = new Adotante(nome, sexo, dataNascimento);
 
             // 4. Salvar no Banco de Dados
@@ -43,7 +39,74 @@ public class Main {
             System.out.println("✅ Cadastro concluído e salvo no MySQL!");
 
         } catch (Exception e) {
-            System.err.println("\nErro grave durante a execução do Main: " + e.getMessage());
+            System.err.println("\nErro durante o processo de salvar o Adotante: " + e.getMessage());
+            // Continua, para que o teste de busca (BLOCO 2) ainda possa rodar.
+        }
+
+        // === BLOCO 2: TESTE DE BUSCA (SELECT) ===
+        // O teste de busca PRECISA do seu próprio try-catch, pois chama um método que lança Exception.
+        try {
+            System.out.println("\n--- Teste de Busca por ID ---");
+            int idParaBuscar = 1;
+
+            System.out.println("Buscando adotante com ID: " + idParaBuscar + "...");
+
+            Adotante adotanteEncontrado = repositorio.buscarAdotantePorId(idParaBuscar);
+
+            if (adotanteEncontrado != null) {
+                System.out.println("✅ Busca bem-sucedida! Detalhes do Adotante:");
+                System.out.println("ID: " + adotanteEncontrado.getId());
+                System.out.println("Nome: " + adotanteEncontrado.getNome());
+                System.out.println("Sexo: " + adotanteEncontrado.getSexo());
+                System.out.println("Nascimento: " + adotanteEncontrado.getDataNascimento());
+            } else {
+                System.out.println("Adotante não foi encontrado (retornou null).");
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro grave durante o teste de Busca: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // === BLOCO 3: TESTE DE ATUALIZAÇÃO (UPDATE) ===
+        try {
+            System.out.println("\n--- Teste de Atualização (UPDATE) ---");
+
+            int idParaAtualizar = 1; // Vamos atualizar o primeiro adotante salvo
+
+            // 1. Buscar o objeto que será modificado (usamos o que foi encontrado antes)
+            Adotante adotanteParaAtualizar = repositorio.buscarAdotantePorId(idParaAtualizar);
+
+            if (adotanteParaAtualizar != null) {
+
+                // 2. Modificar os dados no objeto Java (Usando os Setters)
+                String novoNome = "Carlos White";
+                char novoSexo = 'M';
+
+                adotanteParaAtualizar.setNome(novoNome);
+                adotanteParaAtualizar.setSexo(novoSexo);
+
+                System.out.println("Modificando adotante ID " + idParaAtualizar + " para " + novoNome + "...");
+
+                // 3. Chamar o método de atualização do Repositório
+                repositorio.atualizarAdotante(adotanteParaAtualizar);
+
+                // ---------------------------------------------
+                // 4. Verificação: Buscar novamente para confirmar
+                System.out.println("\nVerificando a atualização...");
+                Adotante adotanteVerificado = repositorio.buscarAdotantePorId(idParaAtualizar);
+
+                if (adotanteVerificado != null) {
+                    System.out.println("UPDATE confirmado!");
+                    System.out.println("ID: " + adotanteVerificado.getId() + ", Novo Nome: " + adotanteVerificado.getNome());
+                }
+
+            } else {
+                System.out.println("Não foi possível atualizar, adotante ID " + idParaAtualizar + " não encontrado.");
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro durante o Teste de Atualização: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
+
