@@ -203,13 +203,13 @@ public class MySQLRepositorio implements Repositorio{
     }
 
     @Override
-    public Animal buscarAnimalPorId(int id) throws Exception {
-        return null;
+    public void atualizarStatusAnimal(Animal animal) throws Exception {
+
     }
 
     @Override
-    public void atualizarStatusAnimal(Animal animal) throws Exception {
-
+    public Animal buscarAnimalPorId(int id) throws Exception {
+        return null;
     }
 
     @Override
