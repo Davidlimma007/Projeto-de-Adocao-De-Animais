@@ -85,8 +85,7 @@ public class MySQLRepositorio implements Repositorio{
         String sql = "UPDATE adotantes SET nome = ?, sexo = ?, dataNascimento = ? WHERE adotante_id = ?";
 
         // O 'try-with-resources' garante que 'conn' e 'stmt' serão fechados
-        try (Connection conn = getConnection();
-             java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // 2. Mapeamento dos Dados (A ordem aqui é fundamental!)
 
@@ -129,8 +128,7 @@ public class MySQLRepositorio implements Repositorio{
         Adotante adotante = null;
 
         // O 'try-with-resources' garante que a Connection e o PreparedStatement sejam fechados
-        try (Connection conn = getConnection();
-             java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
 
             // 1. Mapeamento do parâmetro (substituindo o '?' pelo ID)
@@ -175,8 +173,7 @@ public class MySQLRepositorio implements Repositorio{
     public void excluirAdotante(int id) throws Exception{
         String sql = "DELETE FROM adotantes WHERE adotante_id = ?";
 
-        try(Connection conn = getConnection();
-            java.sql.PreparedStatement stm = conn.prepareStatement(sql)) {
+        try(Connection conn = getConnection(); java.sql.PreparedStatement stm = conn.prepareStatement(sql)) {
 
             stm.setInt(1, id);
 
