@@ -107,6 +107,31 @@ public class Main {
             System.err.println("\nErro durante o Teste de Atualização: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // === BLOCO 4: TESTE DE EXCLUSÃO (DELETE) ===
+        try {
+            System.out.println("\n--- Teste de Exclusão (DELETE) ---");
+
+            int idParaExcluir = 1; // Vamos excluir o primeiro adotante (Carlos White)
+
+            System.out.println("Tentando excluir adotante com ID: " + idParaExcluir + "...");
+
+            // 1. Executa a exclusão (o método é void, não retorna nada)
+            repositorio.excluirAdotante(idParaExcluir);
+
+            // 2. Verificação: Busca o ID novamente para confirmar se ele sumiu
+            System.out.println("\nVerificando se a exclusão foi bem-sucedida...");
+            Adotante adotanteExcluido = repositorio.buscarAdotantePorId(idParaExcluir);
+
+            if (adotanteExcluido == null) {
+                System.out.println("✅ DELETE confirmado! O adotante com ID " + idParaExcluir + " não foi mais encontrado.");
+            } else {
+                System.out.println("Falha na exclusão. O adotante com ID " + idParaExcluir + " AINDA EXISTE.");
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro durante o Teste de Exclusão: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
 

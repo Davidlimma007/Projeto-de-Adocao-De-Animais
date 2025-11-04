@@ -9,6 +9,7 @@ public interface Repositorio {
     void salvarAdotante(Adotante adotante) throws Exception;
     void atualizarAdotante(Adotante adotante) throws Exception;
     Adotante buscarAdotantePorId(int id) throws Exception;
+    void excluirAdotante(int id) throws Exception;
 
     void salvarAnimal(Animal animal) throws Exception;
     void atualizarStatusAnimal(Animal animal) throws Exception;

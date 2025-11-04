@@ -171,6 +171,31 @@ public class MySQLRepositorio implements Repositorio{
         return adotante;
     }
 
+    @Override
+    public void excluirAdotante(int id) throws Exception{
+        String sql = "DELETE FROM adotantes WHERE adotante_id = ?";
+
+        try(Connection conn = getConnection();
+            java.sql.PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setInt(1, id);
+
+            int linhasAfetadas = stm.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Adotante com ID " + id + " excluído com sucesso!");
+            } else {
+                System.out.println("Alerta: Nenhum adotante encontrado com ID " + id + " para exclusão.");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir adotante do banco de dados: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao excluir adotante.", e);
+        }
+
+    }
+
 
     @Override
     public void salvarAnimal(Animal animal) throws Exception {
