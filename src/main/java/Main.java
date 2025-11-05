@@ -1,5 +1,7 @@
 import model.Adotante;
 import model.Animal;
+import model.Cachorro;
+import model.Gato;
 import repository.MySQLRepositorio;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -142,7 +144,7 @@ public class Main {
 
             // 1. Criar o objeto Animal (Bolt)
             // 5kg, 0.40m, Nasc: 2023-01-15, Não adotado
-            Animal novoAnimal = new Animal("Bolt", new BigDecimal("5.0"),  new BigDecimal("0.40"),
+            Animal novoAnimal = new Cachorro("Bolt", new BigDecimal("5.0"),  new BigDecimal("0.40"),
                     "Marrom",  'M',  LocalDate.of(2023, 1, 15),
                     false);// Status inicial: não adotado
 

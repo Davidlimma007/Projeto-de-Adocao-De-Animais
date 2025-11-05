@@ -6,17 +6,19 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public abstract class Animal {
-    private int animal_id;
+    private int id;
     private String nome;
     private BigDecimal peso;
     private BigDecimal altura;
     private String cor;
-    private String sexo;
+    private char sexo;
     private LocalDate dataNascimento;
     private boolean adotado;
+    private String especie;
 
-    public Animal(int animal_id, String nome, BigDecimal peso, BigDecimal altura, String cor, String sexo, LocalDate dataNascimento) {
-        this.animal_id = animal_id;
+    public Animal(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo,
+                  LocalDate dataNascimento, String especie) {
+        this.id = id;
         this.nome = nome;
         this.peso = peso;
         this.altura = altura;
@@ -24,16 +26,19 @@ public abstract class Animal {
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.adotado = false;
+        this.especie = especie;
     }
 
-    public Animal(String nome, BigDecimal peso, BigDecimal altura, String cor, String sexo, LocalDate dataNascimento) {
+    public Animal(String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento,
+                  boolean adotado, String especie) {
         this.nome = nome;
         this.peso = peso;
         this.altura = altura;
         this.cor = cor;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
-        this.adotado = false;
+        this.adotado = adotado;
+        this.especie = especie;
     }
 
     public abstract void emitirSom();
@@ -43,9 +48,9 @@ public abstract class Animal {
         return nome + (adotado ? " (Adotado)" : " (Disponível)");
     }
 
-    public int getAnimal_id() { return animal_id; }
+    public int getId() { return id; }
 
-    public void setAnimal_id(int animal_id) { this.animal_id = animal_id; }
+    public void setId(int id) { this.id = id; }
 
     public String getNome() {
         return nome;
@@ -79,11 +84,11 @@ public abstract class Animal {
         this.cor = cor;
     }
 
-    public String getSexo() {
+    public char getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(char sexo) {
         this.sexo = sexo;
     }
 
@@ -102,6 +107,10 @@ public abstract class Animal {
     public void setAdotado(boolean adotado) {
         this.adotado = adotado;
     }
+
+    public String getEspecie() { return especie; }
+
+    public void setEspecie(String especie) { this.especie = especie; }
 
     public void serAdotado(){
         if(isAdotado()){

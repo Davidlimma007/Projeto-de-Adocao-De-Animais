@@ -197,7 +197,7 @@ public class MySQLRepositorio implements Repositorio{
     @Override
     public void salvarAnimal(Animal animal) throws Exception {
 
-        String sql = "INSERT INTO animais (nome, peso, altura, cor, sexo, dataNascimento, adotado) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO animais (nome, peso, altura, cor, sexo, dataNascimento, adotado, especie) VALUES (?,?,?,?,?,?,?,?)";
 
         try(Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)){
             //Mapeamento dos Dados (7 Parâmetros)
@@ -222,6 +222,9 @@ public class MySQLRepositorio implements Repositorio{
 
             // Parâmetro 7: adotado (boolean -> TINYINT/BOOLEAN)
             stmt.setBoolean(7, animal.isAdotado()); // O isAdotado() retorna o boolean
+
+            // Parâmetro 8: especie
+            stmt.setString(8, animal.getEspecie());
 
             //2. Execução
             stmt.executeUpdate();

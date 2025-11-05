@@ -1,11 +1,13 @@
 package model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Gato extends Animal implements CuidadosEspeciais {
 
-    public Gato(String nome, double peso, double altura, String cor,String sexo, LocalDate dataNascimento) {
-        super(nome, peso, altura, cor, sexo, dataNascimento);
+    public Gato(String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento,
+                    boolean adotado) {
+        super(nome, peso, altura, cor, sexo, dataNascimento, adotado, "Gato");
     }
 
     @Override
