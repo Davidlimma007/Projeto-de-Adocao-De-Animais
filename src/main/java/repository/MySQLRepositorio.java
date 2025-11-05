@@ -197,16 +197,57 @@ public class MySQLRepositorio implements Repositorio{
     @Override
     public void salvarAnimal(Animal animal) throws Exception {
 
+        String sql = "INSERT INTO animais (nome, peso, altura, cor, sexo, dataNascimento, adotado) VALUES (?,?,?,?,?,?,?)";
+
+        try(Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)){
+            //Mapeamento dos Dados (7 Parâmetros)
+
+            // Parâmetro 1: nome (String)
+            stmt.setString(1, animal.getNome());
+
+            // Parâmetro 2: peso (BigDecimal -> DECIMAL)
+            stmt.setBigDecimal(2, animal.getPeso());
+
+            // Parâmetro 3: altura (BigDecimal -> DECIMAL)
+            stmt.setBigDecimal(3, animal.getAltura());
+
+            // Parâmetro 4: cor (String)
+            stmt.setString(4, animal.getCor());
+
+            // Parâmetro 5: sexo (char -> CHAR)
+            stmt.setString(5, String.valueOf(animal.getSexo()));
+
+            // Parâmetro 6: dataNascimento (LocalDate -> DATE)
+            stmt.setDate(6, java.sql.Date.valueOf(animal.getDataNascimento()));
+
+            // Parâmetro 7: adotado (boolean -> TINYINT/BOOLEAN)
+            stmt.setBoolean(7, animal.isAdotado()); // O isAdotado() retorna o boolean
+
+            //2. Execução
+            stmt.executeUpdate();
+
+            System.out.println("Animal " + animal.getNome() + " Salvo com sucesso!");
+
+        }catch (SQLException e){
+            System.err.println("Erro ao salvar animal no banco de dados: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao salvar animal.", e);
+        }
     }
 
     @Override
-    public void atualizarStatusAnimal(Animal animal) throws Exception {
+    public void atualizarAnimal(Animal animal) throws Exception {
 
     }
 
     @Override
     public Animal buscarAnimalPorId(int id) throws Exception {
         return null;
+    }
+
+    @Override
+    public void excluirAnimal(int id) throws Exception{
+
     }
 
     @Override

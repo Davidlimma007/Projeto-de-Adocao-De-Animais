@@ -2,18 +2,31 @@ package model;
 
 import exceptions.AnimalIndisponivelException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public abstract class Animal {
+    private int animal_id;
     private String nome;
-    private double peso;
-    private double altura;
+    private BigDecimal peso;
+    private BigDecimal altura;
     private String cor;
     private String sexo;
     private LocalDate dataNascimento;
     private boolean adotado;
 
-    public Animal(String nome, double peso, double altura, String cor, String sexo, LocalDate dataNascimento) {
+    public Animal(int animal_id, String nome, BigDecimal peso, BigDecimal altura, String cor, String sexo, LocalDate dataNascimento) {
+        this.animal_id = animal_id;
+        this.nome = nome;
+        this.peso = peso;
+        this.altura = altura;
+        this.cor = cor;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.adotado = false;
+    }
+
+    public Animal(String nome, BigDecimal peso, BigDecimal altura, String cor, String sexo, LocalDate dataNascimento) {
         this.nome = nome;
         this.peso = peso;
         this.altura = altura;
@@ -30,6 +43,10 @@ public abstract class Animal {
         return nome + (adotado ? " (Adotado)" : " (Disponível)");
     }
 
+    public int getAnimal_id() { return animal_id; }
+
+    public void setAnimal_id(int animal_id) { this.animal_id = animal_id; }
+
     public String getNome() {
         return nome;
     }
@@ -38,19 +55,19 @@ public abstract class Animal {
         this.nome = nome;
     }
 
-    public double getPeso() {
+    public BigDecimal getPeso() {
         return peso;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(BigDecimal peso) {
         this.peso = peso;
     }
 
-    public double getAltura() {
+    public BigDecimal getAltura() {
         return altura;
     }
 
-    public void setAltura(double altura) {
+    public void setAltura(BigDecimal altura) {
         this.altura = altura;
     }
 

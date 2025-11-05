@@ -1,7 +1,9 @@
 import model.Adotante;
+import model.Animal;
 import repository.MySQLRepositorio;
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +20,7 @@ public class Main {
                 // Decidimos não dar 'return' para que o teste de busca ainda tente rodar.
             }
 
+            /*
             // 2. Coleta de Dados do Usuário
             System.out.println("\n--- Cadastro de Adotante ---");
             System.out.print("Digite o nome completo do Adotante: ");
@@ -37,7 +40,7 @@ public class Main {
             repositorio.salvarAdotante(novoAdotante);
 
             System.out.println("✅ Cadastro concluído e salvo no MySQL!");
-
+            */
         } catch (Exception e) {
             System.err.println("\nErro durante o processo de salvar o Adotante: " + e.getMessage());
             // Continua, para que o teste de busca (BLOCO 2) ainda possa rodar.
@@ -130,6 +133,24 @@ public class Main {
             }
         } catch (Exception e) {
             System.err.println("\nErro durante o Teste de Exclusão: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // === BLOCO 5: TESTE DE SALVAMENTO (INSERT) DO ANIMAL ===
+        try{
+            System.out.println("\n--- Cadastro de Animal ---");
+
+            // 1. Criar o objeto Animal (Bolt)
+            // 5kg, 0.40m, Nasc: 2023-01-15, Não adotado
+            Animal novoAnimal = new Animal("Bolt", new BigDecimal("5.0"),  new BigDecimal("0.40"),
+                    "Marrom",  'M',  LocalDate.of(2023, 1, 15),
+                    false);// Status inicial: não adotado
+
+            //2. Salvar no Repositório
+            repositorio.salvarAnimal(novoAnimal);
+            System.out.println("✅ Salvamento de Animal concluído.");
+        }catch (Exception e){
+            System.err.println("\nErro durante o processo de salvar o Animal: " + e.getMessage());
             e.printStackTrace();
         }
     }
