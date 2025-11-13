@@ -10,10 +10,12 @@ public class Gato extends Animal implements CuidadosEspeciais {
         super(nome, peso, altura, cor, sexo, dataNascimento, adotado, "Gato");
     }
 
-    @Override
-    public void emitirSom() {
-        System.out.println("Miau Miau!");
+    public Gato(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+        super(id, nome, peso, altura, cor, sexo, dataNascimento, especie);
     }
+
+    @Override
+    public String emitirSom() { return "Miau Miau!"; }
 
     @Override
     public void vacinar() {

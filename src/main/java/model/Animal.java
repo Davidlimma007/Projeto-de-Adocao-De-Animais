@@ -41,7 +41,7 @@ public abstract class Animal {
         this.especie = especie;
     }
 
-    public abstract void emitirSom();
+    public abstract String emitirSom();
 
     @Override
     public String toString() {

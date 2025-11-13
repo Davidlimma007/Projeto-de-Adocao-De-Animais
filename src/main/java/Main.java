@@ -155,6 +155,27 @@ public class Main {
             System.err.println("\nErro durante o processo de salvar o Animal: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // === BLOCO 6: TESTE DE BUSCA POR ID (SELECT) DO ANIMAL ===
+        try {
+            System.out.println("\n--- Teste de Busca de Animal por ID ---");
+            int idParaBuscar = 1;
+
+            System.out.println("Buscando animal com ID: " + idParaBuscar + "...");
+
+            Animal animalEncontrado = repositorio.buscarAnimalPorId(idParaBuscar);
+
+            if (animalEncontrado != null) {
+                System.out.println("✅ Busca bem-sucedida! Detalhes do Animal:");
+                System.out.println("ID: " + animalEncontrado.getId() + " - Nome: " + animalEncontrado.getNome() + " (" + animalEncontrado.getEspecie() + ")");
+                System.out.println("Som: " + animalEncontrado.emitirSom()); // Testando o polimorfismo!
+            } else {
+                System.out.println("Animal não foi encontrado.");
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro durante o Teste de Busca de Animal: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
 

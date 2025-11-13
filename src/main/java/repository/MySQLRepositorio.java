@@ -1,12 +1,12 @@
 package repository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
-import model.Adocao;
-import model.Adotante;
-import model.Animal;
+import model.*;
 
 
 public class MySQLRepositorio implements Repositorio{
@@ -245,7 +245,48 @@ public class MySQLRepositorio implements Repositorio{
 
     @Override
     public Animal buscarAnimalPorId(int id) throws Exception {
-        return null;
+        String sql = "SELECT animal_id, nome, peso, altura, cor, sexo, dataNascimento, adotado, " +
+                        "especie FROM animais WHERE animal_id = ?";
+
+        try (Connection conn = getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id); // Mapeia o ID de busca
+
+            try (java.sql.ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // 1. Coleta e Mapeamento dos dados do ResultSet
+                    int animalId = rs.getInt("animal_id");
+                    String nome = rs.getString("nome");
+                    BigDecimal peso = rs.getBigDecimal("peso");
+                    BigDecimal altura = rs.getBigDecimal("altura");
+                    String cor = rs.getString("cor");
+                    char sexo = rs.getString("sexo").charAt(0); // Pega o CHAR(1) e converte para char
+                    LocalDate dataNascimento = rs.getDate("dataNascimento").toLocalDate();
+                    boolean adotado = rs.getBoolean("adotado");
+                    String especie = rs.getString("especie"); // Usado para POO!
+
+                    // 2. POO: Decisão de Instanciação com base na 'especie'
+                    if (especie.equalsIgnoreCase("Cachorro")) {
+                        // Construtor de Busca (com 9 parâmetros, incluindo ID)
+                        return new Cachorro(animalId, nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
+                    } else if (especie.equalsIgnoreCase("Gato")) {
+                        // Implementação do Gato (assumindo que você criou a classe e o construtor de 9 argumentos)
+                        return new Gato(animalId, nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
+                    } else {
+                        // Se a espécie não for reconhecida (o erro de abstração é resolvido aqui)
+                        throw new Exception("Espécie de animal desconhecida no banco de dados: " + especie);
+                    }
+                }
+
+                System.out.println("Animal com ID " + id + " não encontrado.");
+                return null; // Retorna null se não houver resultado
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar animal no banco de dados: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao buscar animal.", e);
+        }
     }
 
     @Override

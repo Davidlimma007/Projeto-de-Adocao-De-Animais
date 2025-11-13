@@ -10,10 +10,13 @@ public class Cachorro extends Animal implements CuidadosEspeciais {
         super(nome, peso, altura, cor, sexo, dataNascimento, adotado, "Cachorro");
     }
 
-    @Override
-    public void emitirSom() {
-        System.out.println("Au Au!");
+
+    public Cachorro(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+        super(id, nome, peso, altura, cor, sexo, dataNascimento, especie);
     }
+
+    @Override
+    public String emitirSom() { return "Au Au!"; }
 
     @Override
     public void vacinar() {
