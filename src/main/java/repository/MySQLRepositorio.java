@@ -241,7 +241,44 @@ public class MySQLRepositorio implements Repositorio{
     @Override
     public void atualizarAnimal(Animal animal) throws Exception {
 
+        String sql = "UPDATE animais SET nome = ?, peso = ?, altura = ?, cor = ?, sexo = ?, " +
+                        "dataNascimento = ?, adotado = ? WHERE animal_id = ?";
+
+        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+
+            stmt.setString(1, animal.getNome());
+
+            stmt.setBigDecimal(2, animal.getPeso());
+
+            stmt.setBigDecimal(3, animal.getAltura());
+
+            stmt.setString(4, animal.getCor());
+
+            stmt.setString(5, String.valueOf(animal.getSexo()));
+
+            stmt.setDate(6, java.sql.Date.valueOf(animal.getDataNascimento()));
+
+            stmt.setBoolean(7, animal.isAdotado());
+
+            stmt.setInt(8, animal.getId());
+
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Animal com ID " + animal.getId() + " atualizado para "
+                        + animal.getNome() + " com sucesso!");
+            } else {
+                System.out.println("Alerta: Nenhum animal encontrado com ID " + animal.getId() + " para atualização.");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar animal no banco de dados: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao atualizar animal.", e);
+        }
     }
+
 
     @Override
     public Animal buscarAnimalPorId(int id) throws Exception {
