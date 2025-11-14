@@ -328,6 +328,25 @@ public class MySQLRepositorio implements Repositorio{
 
     @Override
     public void excluirAnimal(int id) throws Exception{
+        String sql = "DELETE FROM animais WHERE animal_id = ?";
+
+        try(Connection conn = getConnection(); java.sql.PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setInt(1, id);
+
+            int linhasAfetadas = stm.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Animal com ID " + id + " excluído com sucesso!");
+            } else {
+                System.out.println("Alerta: Nenhum animal encontrado com ID " + id + " para exclusão.");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir animal do banco de dados: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao excluir animal.", e);
+        }
 
     }
 
