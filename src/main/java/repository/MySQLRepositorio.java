@@ -353,5 +353,128 @@ public class MySQLRepositorio implements Repositorio{
     @Override
     public void salvarAdocao(Adocao adocao) throws Exception {
 
+        String sqlAdocao = "INSERT INTO adocoes (adotante_id, animal_id, dataAdocao) VALUES (?, ?, ?)";
+        String sqlAnimalUpdate = "UPDATE animais SET adotado = true WHERE animal_id = ?";
+
+        // 1. A conexão deve ser declarada fora do bloco try
+        Connection conn = null;
+
+        try{
+            conn = getConnection();
+            conn.setAutoCommit(false);
+
+            // --- PASSO 1: INSERIR A ADOÇÃO (tabela adocoes) ---
+            try(java.sql.PreparedStatement stmtAdocao = conn.prepareStatement(sqlAdocao)){
+
+                stmtAdocao.setInt(1, adocao.getAdotante().getId());
+                stmtAdocao.setInt(2, adocao.getAnimal().getId());
+                stmtAdocao.setDate(3, java.sql.Date.valueOf(adocao.getDataAdocao()));
+
+                stmtAdocao.executeUpdate();
+            }
+
+            // --- PASSO 2: ATUALIZAR O STATUS DO ANIMAL (tabela animais) ---
+            try(java.sql.PreparedStatement stmtAnimal = conn.prepareStatement(sqlAnimalUpdate)){
+
+                stmtAnimal.setInt(1, adocao.getAnimal().getId());
+
+                stmtAnimal.executeUpdate();
+            }
+
+            // 2. Se as duas operações tiveram sucesso, confirma no banco de dados
+            conn.commit();
+
+            System.out.println("Transação de Adoção concluída com sucesso! Animal "
+                    + adocao.getAnimal().getId() + " adotado por Adotante "
+                    + adocao.getAdotante().getId());
+
+        } catch (SQLException e){
+            // 3. Se algo deu errado, desfaz ambas as operações (rollback)
+            if (conn != null) {
+                conn.rollback();
+            }
+            System.err.println("Erro fatal na transação de adoção: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha na transação de adoção.", e);
+
+        } finally {
+            // 4. Garante que a conexão é fechada, mesmo que ocorra um erro
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+
+    @Override
+    public Adocao buscarAdocaoPorId(int id) throws Exception {
+
+        // SQL com JOINs e Aliases (apelidos) para evitar conflito de nomes
+        String sql = "SELECT " +
+                "    A.adocao_id, A.dataAdocao, " +
+                "    D.adotante_id, D.nome AS adotante_nome, D.sexo AS adotante_sexo, D.dataNascimento AS adotante_dataNascimento, " +
+                "    L.animal_id, L.nome AS animal_nome, L.peso, L.altura, L.cor, L.sexo AS animal_sexo, L.dataNascimento AS animal_dataNascimento, L.adotado, L.especie " +
+                "FROM adocoes A " +
+                "INNER JOIN adotantes D ON A.adotante_id = D.adotante_id " +
+                "INNER JOIN animais L ON A.animal_id = L.animal_id " +
+                "WHERE A.adocao_id = ?";
+
+        Adocao adocao = null;
+
+        try (Connection conn = getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id); // Mapeia o ID de busca
+
+            try (java.sql.ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+
+                    // 1. EXTRAIR DADOS DA ADOÇÃO (A)
+                    int adocaoId = rs.getInt("adocao_id");
+                    LocalDate dataAdocao = rs.getDate("dataAdocao").toLocalDate();
+
+                    // 2. CONSTRUIR O OBJETO ADOTANTE (D)
+                    int adotanteId = rs.getInt("adotante_id");
+                    String adotanteNome = rs.getString("adotante_nome");
+                    char adotanteSexo = rs.getString("adotante_sexo").charAt(0);
+                    LocalDate adotanteDataNascimento = rs.getDate("adotante_dataNascimento").toLocalDate();
+
+                    Adotante adotante = new Adotante(adotanteId, adotanteNome, adotanteSexo, adotanteDataNascimento);
+
+                    // 3. CONSTRUIR O OBJETO ANIMAL (L)
+                    int animalId = rs.getInt("animal_id");
+                    String animalNome = rs.getString("animal_nome");
+                    BigDecimal peso = rs.getBigDecimal("peso");
+                    BigDecimal altura = rs.getBigDecimal("altura");
+                    String cor = rs.getString("cor");
+                    char animalSexo = rs.getString("animal_sexo").charAt(0);
+                    LocalDate animalDataNascimento = rs.getDate("animal_dataNascimento").toLocalDate();
+                    boolean adotado = rs.getBoolean("adotado");
+                    String especie = rs.getString("especie");
+
+                    Animal animal = null;
+
+                    if (especie.equalsIgnoreCase("Cachorro")) {
+                        animal = new Cachorro(animalId, animalNome, peso, altura, cor, animalSexo, animalDataNascimento, adotado, especie);
+                    } else if (especie.equalsIgnoreCase("Gato")) {
+                        animal = new Gato(animalId, animalNome, peso, altura, cor, animalSexo, animalDataNascimento, adotado, especie);
+                    } else {
+                        // Fallback (lança exceção se for uma espécie desconhecida)
+                        throw new Exception("Espécie de animal desconhecida no banco de dados para a adoção: " + especie);
+                    }
+
+                    // 4. CONSTRUIR O OBJETO ADOCAO FINAL
+                    adocao = new Adocao(adocaoId, adotante, animal, dataAdocao);
+
+                } else {
+                    System.out.println("Adoção com ID " + id + " não encontrada.");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar adoção no banco de dados: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao buscar adoção.", e);
+        }
+
+        return adocao;
     }
 }

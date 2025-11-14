@@ -17,5 +17,6 @@ public interface Repositorio {
     void excluirAnimal(int id) throws Exception;
 
     void salvarAdocao(Adocao adocao) throws Exception;
+    public Adocao buscarAdocaoPorId(int id) throws Exception;
 
 }
