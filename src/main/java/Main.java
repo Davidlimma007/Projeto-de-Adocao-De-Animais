@@ -2,6 +2,7 @@ import model.Adotante;
 import model.Animal;
 import model.Cachorro;
 import model.Gato;
+import model.Adocao;
 import repository.MySQLRepositorio;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -174,6 +175,49 @@ public class Main {
             }
         } catch (Exception e) {
             System.err.println("\nErro durante o Teste de Busca de Animal: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println("\n--- INICIANDO FLUXO COMPLETO DE ADOÇÃO ---");
+
+            // 1. CADASTRO DO ADOTANTE (ID 1)
+            System.out.println("\n1. Cadastrando Novo Adotante (ID 1)...");
+            Adotante novoAdotante = new Adotante("Maria Teste", 'F', LocalDate.of(1985, 10, 20));
+            // Definimos o ID para 1 apenas para uso interno no teste, se o banco gera ID, remova esta linha
+            novoAdotante.setId(1);
+            repositorio.salvarAdotante(novoAdotante);
+
+            // 2. CADASTRO DO ANIMAL (ID 1)
+            System.out.println("\n2. Cadastrando Novo Animal (Cachorro ID 1)...");
+            // O status adotado deve ser 'false' inicialmente!
+            Cachorro novoAnimal = new Cachorro("Rex", new BigDecimal("10.0"), new BigDecimal("0.45"),
+                    "Marrom", 'M', LocalDate.of(2024, 1, 1), false, "Cachorro");
+            // Definimos o ID para 1 apenas para uso interno no teste
+            novoAnimal.setId(1);
+            repositorio.salvarAnimal(novoAnimal);
+
+            // 3. REGISTRAR ADOÇÃO (TRANSAÇÃO)
+            System.out.println("\n3. Registrando a Adoção (INSERT + UPDATE Transacional)...");
+            // É CRÍTICO que os IDs do Adotante e Animal existam no banco!
+            Adocao novaAdocao = new Adocao(novoAdotante, novoAnimal, LocalDate.now());
+
+            // A chamada a salvarAdocao deve fazer o INSERT na tabela 'adocoes' E o UPDATE na tabela 'animais'
+            repositorio.salvarAdocao(novaAdocao);
+
+            // 4. VERIFICAÇÃO FINAL
+            System.out.println("\n4. Verificação Final do Status do Animal...");
+            Animal animalVerificado = repositorio.buscarAnimalPorId(novoAnimal.getId());
+
+            if (animalVerificado != null && animalVerificado.isAdotado()) {
+                System.out.println("✅ SUCESSO! O fluxo completo funcionou. O animal '"
+                        + animalVerificado.getNome() + "' está agora como adotado=true.");
+            } else {
+                System.out.println("❌ FALHA! A transação não atualizou o status 'adotado' do animal.");
+            }
+
+        } catch (Exception e) {
+            System.err.println("\nERRO CRÍTICO NO FLUXO DE TESTE: " + e.getMessage());
             e.printStackTrace();
         }
     }

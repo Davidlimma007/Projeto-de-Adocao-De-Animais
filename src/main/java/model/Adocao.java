@@ -12,8 +12,18 @@ public class Adocao {
         this.id = id;
         this.adotante = adotante;
         this.animal = animal;
-        this.dataAdocao = LocalDate.now();
+        this.dataAdocao = dataAdocao;
     }
+
+    public Adocao(Adotante adotante, Animal animal, LocalDate dataAdocao){
+        this.adotante = adotante;
+        this.animal = animal;
+        this.dataAdocao = dataAdocao;
+    }
+
+    public int getId(){return id;}
+
+    public void setId(int id) { this.id = id;}
 
     public Adotante getAdotante() {
         return adotante;

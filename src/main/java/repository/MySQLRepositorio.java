@@ -15,7 +15,7 @@ public class MySQLRepositorio implements Repositorio{
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
