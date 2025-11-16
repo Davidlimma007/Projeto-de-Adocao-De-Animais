@@ -17,7 +17,7 @@ public abstract class Animal {
     private String especie;
 
     public Animal(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo,
-                  LocalDate dataNascimento, String especie) {
+                  LocalDate dataNascimento, boolean adotado, String especie) {
         this.id = id;
         this.nome = nome;
         this.peso = peso;
@@ -25,7 +25,7 @@ public abstract class Animal {
         this.cor = cor;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
-        this.adotado = false;
+        this.adotado = adotado;
         this.especie = especie;
     }
 

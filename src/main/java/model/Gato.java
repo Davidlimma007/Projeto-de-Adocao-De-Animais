@@ -10,14 +10,14 @@ public class Gato extends Animal implements CuidadosEspeciais {
         super(nome, peso, altura, cor, sexo, dataNascimento, adotado, "Gato");
     }
 
+    public Gato(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+        super(id, nome, peso, altura, cor, sexo, dataNascimento, adotado, "Gato");
+    }
+
     public Gato(String nome, BigDecimal peso, BigDecimal altura, String cor,
                     char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
 
         super(nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
-    }
-
-    public Gato(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
-        super(id, nome, peso, altura, cor, sexo, dataNascimento, especie);
     }
 
     @Override

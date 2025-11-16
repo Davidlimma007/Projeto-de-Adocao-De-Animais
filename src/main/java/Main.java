@@ -52,6 +52,7 @@ public class Main {
         // === BLOCO 2: TESTE DE BUSCA (SELECT) ===
         // O teste de busca PRECISA do seu próprio try-catch, pois chama um método que lança Exception.
         try {
+            /*
             System.out.println("\n--- Teste de Busca por ID ---");
             int idParaBuscar = 1;
 
@@ -68,6 +69,7 @@ public class Main {
             } else {
                 System.out.println("Adotante não foi encontrado (retornou null).");
             }
+             */
         } catch (Exception e) {
             System.err.println("\nErro grave durante o teste de Busca: " + e.getMessage());
             e.printStackTrace();
@@ -75,6 +77,7 @@ public class Main {
 
         // === BLOCO 3: TESTE DE ATUALIZAÇÃO (UPDATE) ===
         try {
+            /*
             System.out.println("\n--- Teste de Atualização (UPDATE) ---");
 
             int idParaAtualizar = 1; // Vamos atualizar o primeiro adotante salvo
@@ -109,6 +112,8 @@ public class Main {
             } else {
                 System.out.println("Não foi possível atualizar, adotante ID " + idParaAtualizar + " não encontrado.");
             }
+
+             */
         } catch (Exception e) {
             System.err.println("\nErro durante o Teste de Atualização: " + e.getMessage());
             e.printStackTrace();
@@ -116,6 +121,7 @@ public class Main {
 
         // === BLOCO 4: TESTE DE EXCLUSÃO (DELETE) ===
         try {
+            /*
             System.out.println("\n--- Teste de Exclusão (DELETE) ---");
 
             int idParaExcluir = 1; // Vamos excluir o primeiro adotante (Carlos White)
@@ -134,6 +140,8 @@ public class Main {
             } else {
                 System.out.println("Falha na exclusão. O adotante com ID " + idParaExcluir + " AINDA EXISTE.");
             }
+
+             */
         } catch (Exception e) {
             System.err.println("\nErro durante o Teste de Exclusão: " + e.getMessage());
             e.printStackTrace();
@@ -141,6 +149,7 @@ public class Main {
 
         // === BLOCO 5: TESTE DE SALVAMENTO (INSERT) DO ANIMAL ===
         try{
+            /*
             System.out.println("\n--- Cadastro de Animal ---");
 
             // 1. Criar o objeto Animal (Bolt)
@@ -152,6 +161,8 @@ public class Main {
             //2. Salvar no Repositório
             repositorio.salvarAnimal(novoAnimal);
             System.out.println("✅ Salvamento de Animal concluído.");
+
+             */
         }catch (Exception e){
             System.err.println("\nErro durante o processo de salvar o Animal: " + e.getMessage());
             e.printStackTrace();
@@ -159,6 +170,7 @@ public class Main {
 
         // === BLOCO 6: TESTE DE BUSCA POR ID (SELECT) DO ANIMAL ===
         try {
+            /*
             System.out.println("\n--- Teste de Busca de Animal por ID ---");
             int idParaBuscar = 1;
 
@@ -173,6 +185,8 @@ public class Main {
             } else {
                 System.out.println("Animal não foi encontrado.");
             }
+
+             */
         } catch (Exception e) {
             System.err.println("\nErro durante o Teste de Busca de Animal: " + e.getMessage());
             e.printStackTrace();
@@ -185,16 +199,16 @@ public class Main {
             System.out.println("\n1. Cadastrando Novo Adotante (ID 1)...");
             Adotante novoAdotante = new Adotante("Maria Teste", 'F', LocalDate.of(1985, 10, 20));
             // Definimos o ID para 1 apenas para uso interno no teste, se o banco gera ID, remova esta linha
-            novoAdotante.setId(1);
+           // novoAdotante.setId(1);
             repositorio.salvarAdotante(novoAdotante);
 
             // 2. CADASTRO DO ANIMAL (ID 1)
             System.out.println("\n2. Cadastrando Novo Animal (Cachorro ID 1)...");
             // O status adotado deve ser 'false' inicialmente!
-            Cachorro novoAnimal = new Cachorro("Rex", new BigDecimal("10.0"), new BigDecimal("0.45"),
+            Animal novoAnimal = new Cachorro("Rex", new BigDecimal("10.0"), new BigDecimal("0.45"),
                     "Marrom", 'M', LocalDate.of(2024, 1, 1), false, "Cachorro");
             // Definimos o ID para 1 apenas para uso interno no teste
-            novoAnimal.setId(1);
+           // novoAnimal.setId(1);
             repositorio.salvarAnimal(novoAnimal);
 
             // 3. REGISTRAR ADOÇÃO (TRANSAÇÃO)

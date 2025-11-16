@@ -11,7 +11,7 @@ public class Cachorro extends Animal implements CuidadosEspeciais {
     }
 
     public Cachorro(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
-        super(id, nome, peso, altura, cor, sexo, dataNascimento, especie);
+        super(id, nome, peso, altura, cor, sexo, dataNascimento, adotado, "Cachorro");
     }
 
     public Cachorro(String nome, BigDecimal peso, BigDecimal altura, String cor,

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import model.*;
@@ -49,7 +50,7 @@ public class MySQLRepositorio implements Repositorio{
         String sql = "INSERT INTO adotantes (nome, sexo, dataNascimento) VALUES (?, ?, ?)";
 
         // O 'try-with-resources' garante que 'conn' e 'stmt' serão fechados
-        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // 1. Mapeamento dos Dados (substituindo os '?' da instrução SQL)
 
@@ -68,7 +69,14 @@ public class MySQLRepositorio implements Repositorio{
             // Executa o comando de INSERT
             stmt.executeUpdate();
 
-            System.out.println("Adotante " + adotante.getNome() + " salvo com sucesso!");
+            try(java.sql.ResultSet rs = stmt.getGeneratedKeys()){
+                if(rs.next()){
+                    int idGerado = rs.getInt(1);
+                    adotante.setId(idGerado);
+                    System.out.println("Adotante " + adotante.getNome() + " salvo com sucesso!");
+                }
+            }
+
 
         } catch (SQLException e) {
             System.err.println("Erro ao salvar adotante no banco de dados: " + e.getMessage());
@@ -85,7 +93,7 @@ public class MySQLRepositorio implements Repositorio{
         String sql = "UPDATE adotantes SET nome = ?, sexo = ?, dataNascimento = ? WHERE adotante_id = ?";
 
         // O 'try-with-resources' garante que 'conn' e 'stmt' serão fechados
-        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // 2. Mapeamento dos Dados (A ordem aqui é fundamental!)
 
@@ -199,7 +207,7 @@ public class MySQLRepositorio implements Repositorio{
 
         String sql = "INSERT INTO animais (nome, peso, altura, cor, sexo, dataNascimento, adotado, especie) VALUES (?,?,?,?,?,?,?,?)";
 
-        try(Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql)){
+        try(Connection conn = getConnection(); java.sql.PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             //Mapeamento dos Dados (7 Parâmetros)
 
             // Parâmetro 1: nome (String)
@@ -229,7 +237,13 @@ public class MySQLRepositorio implements Repositorio{
             //2. Execução
             stmt.executeUpdate();
 
-            System.out.println("Animal " + animal.getNome() + " Salvo com sucesso!");
+            try (java.sql.ResultSet rs = stmt.getGeneratedKeys()){
+                if(rs.next()){
+                    int idGerado = rs.getInt(1);
+                    animal.setId(idGerado);
+                    System.out.println("Animal " + animal.getNome() + " Salvo com sucesso!");
+                }
+            }
 
         }catch (SQLException e){
             System.err.println("Erro ao salvar animal no banco de dados: " + e.getMessage());
