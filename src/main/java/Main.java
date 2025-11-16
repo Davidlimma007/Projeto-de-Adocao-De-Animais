@@ -47,7 +47,7 @@ public class Main {
             System.out.println("\nTentando salvar Adotante...");
             repositorio.salvarAdotante(novoAdotante);
 
-            System.out.println("✅ Cadastro concluído e salvo no MySQL!");
+            System.out.println("Cadastro concluído e salvo no MySQL!");
             */
         } catch (Exception e) {
             System.err.println("\nErro durante o processo de salvar o Adotante: " + e.getMessage());
@@ -66,7 +66,7 @@ public class Main {
             Adotante adotanteEncontrado = repositorio.buscarAdotantePorId(idParaBuscar);
 
             if (adotanteEncontrado != null) {
-                System.out.println("✅ Busca bem-sucedida! Detalhes do Adotante:");
+                System.out.println("Busca bem-sucedida! Detalhes do Adotante:");
                 System.out.println("ID: " + adotanteEncontrado.getId());
                 System.out.println("Nome: " + adotanteEncontrado.getNome());
                 System.out.println("Sexo: " + adotanteEncontrado.getSexo());
@@ -141,7 +141,7 @@ public class Main {
             Adotante adotanteExcluido = repositorio.buscarAdotantePorId(idParaExcluir);
 
             if (adotanteExcluido == null) {
-                System.out.println("✅ DELETE confirmado! O adotante com ID " + idParaExcluir + " não foi mais encontrado.");
+                System.out.println("DELETE confirmado! O adotante com ID " + idParaExcluir + " não foi mais encontrado.");
             } else {
                 System.out.println("Falha na exclusão. O adotante com ID " + idParaExcluir + " AINDA EXISTE.");
             }
@@ -165,7 +165,7 @@ public class Main {
 
             //2. Salvar no Repositório
             repositorio.salvarAnimal(novoAnimal);
-            System.out.println("✅ Salvamento de Animal concluído.");
+            System.out.println("Salvamento de Animal concluído.");
 
              */
         }catch (Exception e){
@@ -184,7 +184,7 @@ public class Main {
             Animal animalEncontrado = repositorio.buscarAnimalPorId(idParaBuscar);
 
             if (animalEncontrado != null) {
-                System.out.println("✅ Busca bem-sucedida! Detalhes do Animal:");
+                System.out.println("Busca bem-sucedida! Detalhes do Animal:");
                 System.out.println("ID: " + animalEncontrado.getId() + " - Nome: " + animalEncontrado.getNome() + " (" + animalEncontrado.getEspecie() + ")");
                 System.out.println("Som: " + animalEncontrado.emitirSom()); // Testando o polimorfismo!
             } else {
@@ -230,10 +230,10 @@ public class Main {
             Animal animalVerificado = repositorio.buscarAnimalPorId(novoAnimal.getId());
 
             if (animalVerificado != null && animalVerificado.isAdotado()) {
-                System.out.println("✅ SUCESSO! O fluxo completo funcionou. O animal '"
+                System.out.println("SUCESSO! O fluxo completo funcionou. O animal '"
                         + animalVerificado.getNome() + "' está agora como adotado=true.");
             } else {
-                System.out.println("❌ FALHA! A transação não atualizou o status 'adotado' do animal.");
+                System.out.println("FALHA! A transação não atualizou o status 'adotado' do animal.");
             }
 
 
@@ -420,7 +420,7 @@ public class Main {
             }
 
         } catch (Exception e) {
-            System.err.println("\n❌ Ocorreu um erro durante o teste de persistência: " + e.getMessage());
+            System.err.println("\n Ocorreu um erro durante o teste de persistência: " + e.getMessage());
             e.printStackTrace();
         }
 
