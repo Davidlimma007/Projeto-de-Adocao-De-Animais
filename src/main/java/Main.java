@@ -4,8 +4,12 @@ import model.Cachorro;
 import model.Gato;
 import model.Adocao;
 import repository.MySQLRepositorio;
+import repository.Repositorio;
+import repository.TxtRepositorio;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.math.BigDecimal;
 
@@ -241,6 +245,7 @@ public class Main {
 
         // === BLOCO 1: LISTAGEM GERAL DE ANIMAIS ===
         try {
+            /*
             System.out.println("\n--- LISTAGEM GERAL DE ANIMAIS CADASTRADOS ---");
 
             List<Animal> todosAnimais = repositorio.listaTodosAnimais();
@@ -262,6 +267,8 @@ public class Main {
                 }
                 System.out.println("----------------------------------------------");
             }
+
+             */
         } catch (Exception e) {
             System.err.println("\nErro durante a listagem de animais: " + e.getMessage());
             e.printStackTrace();
@@ -271,6 +278,7 @@ public class Main {
 
 // === BLOCO 2: LISTAGEM GERAL DE ADOTANTES ===
         try {
+            /*
             System.out.println("\n--- LISTAGEM GERAL DE ADOTANTES CADASTRADOS ---");
 
             List<Adotante> todosAdotantes = repositorio.listaTodosAdotantes();
@@ -291,6 +299,8 @@ public class Main {
                 }
                 System.out.println("----------------------------------------------");
             }
+
+             */
         } catch (Exception e) {
             System.err.println("\nErro durante a listagem de adotantes: " + e.getMessage());
             e.printStackTrace();
@@ -300,6 +310,7 @@ public class Main {
 
 // === BLOCO 3: LISTAGEM GERAL DE ADOÇÕES ===
         try {
+            /*
             System.out.println("\n--- HISTÓRICO COMPLETO DE ADOÇÕES ---");
 
             List<Adocao> todasAdocoes = repositorio.listaTodasAdocoes();
@@ -329,8 +340,87 @@ public class Main {
                     System.out.println("-------------------------------------------------------------------");
                 }
             }
+
+             */
         } catch (Exception e) {
             System.err.println("\nErro durante a listagem de adoções: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        Repositorio repo = new TxtRepositorio();
+
+        System.out.println("=== Testes de Persistência do Repositório ===");
+        try {
+            // 1. Criação de Dados Iniciais
+            System.out.println("\n--- 1. Criando ou Carregando Adotantes e Animais ---");
+
+            // Estes objetos serão salvos se for a primeira execução
+            Adotante adotanteAlice = new Adotante("Alice", 'F', LocalDate.of(1990, 5, 15));
+            Adotante adotanteBob = new Adotante("Bob", 'M', LocalDate.of(1985, 10, 20));
+
+            Cachorro cachorroRex = new Cachorro("Rex", new BigDecimal("15.5"), new BigDecimal("0.5"),
+                    "Marrom", 'M', LocalDate.of(2022, 1, 10), false);
+            Gato gatoMimi = new Gato("Mimi", new BigDecimal("4.0"), new BigDecimal("0.3"),
+                    "Branco", 'F', LocalDate.of(2023, 3, 5), false);
+
+            // Salvamos apenas se o repositório estiver vazio (simulando a primeira carga)
+            if (repo.listaTodosAdotantes().isEmpty()) {
+                repo.salvarAdotante(adotanteAlice);
+                repo.salvarAdotante(adotanteBob);
+            }
+            if (repo.listaTodosAnimais().isEmpty()) {
+                repo.salvarAnimal(cachorroRex);
+                repo.salvarAnimal(gatoMimi);
+            }
+
+            // Sempre carregamos os dados do arquivo para garantir que IDs e status de adoção estejam corretos
+            List<Adotante> adotantes = repo.listaTodosAdotantes();
+            List<Animal> animais = repo.listaTodosAnimais();
+
+            // Usamos os objetos carregados (que têm ID) para as operações
+            Adotante alice = adotantes.stream().filter(a -> a.getNome().equals("Alice")).findFirst().orElseThrow();
+            Animal rex = animais.stream().filter(a -> a.getNome().equals("Rex")).findFirst().orElseThrow();
+            Animal mimi = animais.stream().filter(a -> a.getNome().equals("Mimi")).findFirst().orElseThrow();
+
+
+            // 2. Realizando Adoções (só na primeira execução)
+            System.out.println("\n--- 2. Tentando Realizar Adoções ---");
+            if (repo.listaTodasAdocoes().isEmpty()) {
+                repo.salvarAdocao(new Adocao(alice, rex, LocalDate.now()));
+                repo.salvarAdocao(new Adocao(alice, mimi, LocalDate.now()));
+            } else {
+                System.out.println("Adoções já existem. Pulando a criação inicial.");
+            }
+
+            // 3. Listagem dos Dados Persistidos
+            System.out.println("\n--- 3. Listando Dados Persistidos ---");
+
+            System.out.println("\nAdotantes (do arquivo):");
+            repo.listaTodosAdotantes().forEach(a -> System.out.println("  " + a.getId() + " - " + a.getNome() +
+                    ", Animais Adotados: " + a.getAnimaisAdotados().size()));
+
+            System.out.println("\nAnimais (do arquivo):");
+            repo.listaTodosAnimais().forEach(a -> System.out.println("  " + a.getId() + " - " + a.getNome() +
+                    " (Adotado: " + a.isAdotado() + ")"));
+
+            System.out.println("\nAdoções (do arquivo):");
+            repo.listaTodasAdocoes().forEach(a -> System.out.println("  " + a.getId() + " - " + a.getAnimal().getNome() +
+                    " adotado por " + a.getAdotante().getNome()));
+
+            // 4. Testando Exclusão (Para a próxima execução testar o carregamento sem esse dado)
+            System.out.println("\n--- 4. Testando Exclusão (Se o adotante 'Bob' existe) ---");
+            List<Adotante> currentAdotantes = repo.listaTodosAdotantes();
+            Optional<Adotante> bobOpt = currentAdotantes.stream().filter(a -> a.getNome().equals("Bob")).findFirst();
+
+            if (bobOpt.isPresent()) {
+                repo.excluirAdotante(bobOpt.get().getId());
+                System.out.println("Adotante Bob excluído com sucesso. Execute novamente para confirmar que ele não carrega mais.");
+            } else {
+                System.out.println("Adotante Bob não encontrado (já foi excluído ou o repositório está limpo).");
+            }
+
+        } catch (Exception e) {
+            System.err.println("\n❌ Ocorreu um erro durante o teste de persistência: " + e.getMessage());
             e.printStackTrace();
         }
 

@@ -1,0 +1,2 @@
+1;Cachorro;Rex;15.5;0.5;M;2022-01-10;true
+2;Gato;Mimi;4.0;0.3;F;2023-03-05;true
