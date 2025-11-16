@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.*;
 
@@ -490,5 +492,148 @@ public class MySQLRepositorio implements Repositorio{
         }
 
         return adocao;
+    }
+
+    @Override
+    public List<Adotante> listaTodosAdotantes() throws Exception {
+        List<Adotante> adotantes = new ArrayList<>();
+        String sql = "SELECT * FROM adotantes";
+
+        try (Connection conn = getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+             java.sql.ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                // Mapeamento idêntico ao que você faz em buscarAdotantePorId
+                Adotante adotante = new Adotante(
+                        rs.getInt("adotante_id"),
+                        rs.getString("nome"),
+                        rs.getString("sexo").charAt(0),
+                        rs.getDate("dataNascimento").toLocalDate()
+                );
+                adotantes.add(adotante);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar todos os adotantes: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao listar adotantes.", e);
+        }
+
+        return adotantes;
+    }
+
+    @Override
+    public List<Animal> listaTodosAnimais() throws Exception {
+        List<Animal> animais = new ArrayList<>();
+        String sql = "SELECT * FROM animais";
+
+        try (Connection conn = getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+             java.sql.ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int animalId = rs.getInt("animal_id");
+                String nome = rs.getString("nome");
+                BigDecimal peso = rs.getBigDecimal("peso");
+                BigDecimal altura = rs.getBigDecimal("altura");
+                String cor = rs.getString("cor");
+                char sexo = rs.getString("sexo").charAt(0);
+                LocalDate dataNascimento = rs.getDate("dataNascimento").toLocalDate();
+                boolean adotado = rs.getBoolean("adotado");
+                String especie = rs.getString("especie"); // Campo crucial para a POO
+
+                Animal animal = null;
+
+                // Instancia a subclasse correta (Pattern Factory)
+                if (especie.equalsIgnoreCase("Cachorro")) {
+                    animal = new Cachorro(animalId, nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
+                } else if (especie.equalsIgnoreCase("Gato")) {
+                    animal = new Gato(animalId, nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
+                }
+
+                // VERIFICAÇÃO DE CONSISTÊNCIA: Ignora registros com espécie desconhecida
+                if (animal != null) {
+                    animais.add(animal);
+                } else {
+                    System.err.println("Alerta de inconsistência: Animal ID " + animalId + " ignorado. Espécie '" + especie + "' não reconhecida/mapeada.");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar todos os animais: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao listar animais.", e);
+        }
+
+        return animais;
+    }
+
+    @Override
+    public List<Adocao> listaTodasAdocoes() throws Exception {
+        List<Adocao> adocoes = new ArrayList<>();
+
+        // Usamos JOIN para obter os detalhes do Adotante e do Animal na mesma consulta
+        String sql = "SELECT " +
+                "a.id AS adocao_id, a.dataAdocao, " +
+                "ad.adotante_id, ad.nome AS adotante_nome, ad.sexo AS adotante_sexo, ad.dataNascimento AS adotante_dataNascimento, " +
+                "an.animal_id, an.nome AS animal_nome, an.peso, an.altura, an.cor, an.sexo AS animal_sexo, an.dataNascimento AS animal_dataNascimento, an.adotado, an.especie " +
+                "FROM adocoes a " +
+                "JOIN adotantes ad ON a.adotante_id = ad.adotante_id " +
+                "JOIN animais an ON a.animal_id = an.animal_id";
+
+        try (Connection conn = getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+             java.sql.ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                // 1. RECONSTRUIR ADOTANTE
+                Adotante adotante = new Adotante(
+                        rs.getInt("adotante_id"),
+                        rs.getString("adotante_nome"),
+                        rs.getString("adotante_sexo").charAt(0),
+                        rs.getDate("adotante_dataNascimento").toLocalDate()
+                );
+
+                // 2. RECONSTRUIR ANIMAL (usando a lógica Factory para Cachorro/Gato)
+                int animalId = rs.getInt("animal_id");
+                String especie = rs.getString("especie");
+                Animal animal;
+
+                // Mapeamento dos 9 parâmetros do Animal/Cachorro/Gato
+                String animalNome = rs.getString("animal_nome");
+                BigDecimal peso = rs.getBigDecimal("peso");
+                BigDecimal altura = rs.getBigDecimal("altura");
+                String cor = rs.getString("cor");
+                char sexo = rs.getString("animal_sexo").charAt(0);
+                LocalDate dataNascimento = rs.getDate("animal_dataNascimento").toLocalDate();
+                boolean adotado = rs.getBoolean("adotado");
+
+                if (especie.equalsIgnoreCase("Cachorro")) {
+                    animal = new Cachorro(animalId, animalNome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
+                } else if (especie.equalsIgnoreCase("Gato")) {
+                    animal = new Gato(animalId, animalNome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
+                } else {
+                    // Se a espécie for desconhecida, pulamos esta adoção para evitar instanciar Animal abstrato
+                    System.err.println("Alerta: Adoção ignorada devido à espécie desconhecida do animal ID " + animalId);
+                    continue;
+                }
+
+                // 3. RECONSTRUIR ADOÇÃO
+                Adocao adocao = new Adocao(
+                        rs.getInt("adocao_id"),
+                        adotante,
+                        animal,
+                        rs.getDate("dataAdocao").toLocalDate()
+                );
+
+                adocoes.add(adocao);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar todas as adoções: " + e.getMessage());
+            e.printStackTrace();
+            throw new Exception("Falha ao listar adoções.", e);
+        }
+
+        return adocoes;
     }
 }

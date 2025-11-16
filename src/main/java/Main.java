@@ -5,6 +5,7 @@ import model.Gato;
 import model.Adocao;
 import repository.MySQLRepositorio;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import java.math.BigDecimal;
 
@@ -193,6 +194,7 @@ public class Main {
         }
 
         try {
+            /*
             System.out.println("\n--- INICIANDO FLUXO COMPLETO DE ADOÇÃO ---");
 
             // 1. CADASTRO DO ADOTANTE (ID 1)
@@ -230,10 +232,108 @@ public class Main {
                 System.out.println("❌ FALHA! A transação não atualizou o status 'adotado' do animal.");
             }
 
+
+             */
         } catch (Exception e) {
             System.err.println("\nERRO CRÍTICO NO FLUXO DE TESTE: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // === BLOCO 1: LISTAGEM GERAL DE ANIMAIS ===
+        try {
+            System.out.println("\n--- LISTAGEM GERAL DE ANIMAIS CADASTRADOS ---");
+
+            List<Animal> todosAnimais = repositorio.listaTodosAnimais();
+
+            if (todosAnimais.isEmpty()) {
+                System.out.println("Nenhum animal cadastrado no momento.");
+            } else {
+                System.out.println("Total de Animais Encontrados: " + todosAnimais.size());
+                System.out.println("----------------------------------------------");
+
+                for (Animal animal : todosAnimais) {
+                    System.out.printf("ID: %d | Nome: %s | Espécie: %s | Adotado: %b | Som: %s\n",
+                            animal.getId(),
+                            animal.getNome(),
+                            animal.getEspecie(),
+                            animal.isAdotado(),
+                            animal.emitirSom() // Teste de Polimorfismo
+                    );
+                }
+                System.out.println("----------------------------------------------");
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro durante a listagem de animais: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+// ----------------------------------------------------------------------------------
+
+// === BLOCO 2: LISTAGEM GERAL DE ADOTANTES ===
+        try {
+            System.out.println("\n--- LISTAGEM GERAL DE ADOTANTES CADASTRADOS ---");
+
+            List<Adotante> todosAdotantes = repositorio.listaTodosAdotantes();
+
+            if (todosAdotantes.isEmpty()) {
+                System.out.println("Nenhum adotante cadastrado no momento.");
+            } else {
+                System.out.println("Total de Adotantes Encontrados: " + todosAdotantes.size());
+                System.out.println("----------------------------------------------");
+
+                for (Adotante adotante : todosAdotantes) {
+                    System.out.printf("ID: %d | Nome: %s | Sexo: %c | Nasc: %s\n",
+                            adotante.getId(),
+                            adotante.getNome(),
+                            adotante.getSexo(),
+                            adotante.getDataNascimento().toString()
+                    );
+                }
+                System.out.println("----------------------------------------------");
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro durante a listagem de adotantes: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+// ----------------------------------------------------------------------------------
+
+// === BLOCO 3: LISTAGEM GERAL DE ADOÇÕES ===
+        try {
+            System.out.println("\n--- HISTÓRICO COMPLETO DE ADOÇÕES ---");
+
+            List<Adocao> todasAdocoes = repositorio.listaTodasAdocoes();
+
+            if (todasAdocoes.isEmpty()) {
+                System.out.println("Nenhuma adoção registrada no histórico.");
+            } else {
+                System.out.println("Total de Adoções Registradas: " + todasAdocoes.size());
+                System.out.println("-------------------------------------------------------------------");
+
+                for (Adocao adocao : todasAdocoes) {
+                    System.out.printf("ID Adoção: %d | Data: %s\n",
+                            adocao.getId(),
+                            adocao.getDataAdocao().toString()
+                    );
+                    // Detalhes do Adotante e Animal aninhados na Adoção
+                    System.out.printf("  > Adotante: %s (ID %d)\n",
+                            adocao.getAdotante().getNome(),
+                            adocao.getAdotante().getId()
+                    );
+                    System.out.printf("  > Animal: %s (%s) (ID %d) - Som: %s\n",
+                            adocao.getAnimal().getNome(),
+                            adocao.getAnimal().getEspecie(),
+                            adocao.getAnimal().getId(),
+                            adocao.getAnimal().emitirSom()
+                    );
+                    System.out.println("-------------------------------------------------------------------");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("\nErro durante a listagem de adoções: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }
 

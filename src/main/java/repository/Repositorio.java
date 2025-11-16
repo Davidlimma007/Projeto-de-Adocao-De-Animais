@@ -4,6 +4,8 @@ import model.Adocao;
 import model.Adotante;
 import model.Animal;
 
+import java.util.List;
+
 public interface Repositorio {
 
     void salvarAdotante(Adotante adotante) throws Exception;
@@ -18,5 +20,9 @@ public interface Repositorio {
 
     void salvarAdocao(Adocao adocao) throws Exception;
     public Adocao buscarAdocaoPorId(int id) throws Exception;
+
+    List<Adotante> listaTodosAdotantes() throws Exception;
+    List<Animal> listaTodosAnimais() throws Exception;
+    List<Adocao> listaTodasAdocoes() throws Exception;
 
 }
