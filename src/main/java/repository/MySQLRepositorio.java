@@ -175,8 +175,37 @@ public class MySQLRepositorio implements Repositorio{
             e.printStackTrace();
             throw new Exception("Falha ao buscar adotante.", e);
         }
+        
+        // Carregar animais adotados do banco para popular a lista (após fechar a conexão anterior)
+        if (adotante != null) {
+            try {
+                carregarAnimaisAdotados(adotante);
+            } catch (SQLException e) {
+                System.err.println("Erro ao carregar animais adotados: " + e.getMessage());
+                // Não lança exceção, apenas loga o erro
+            }
+        }
 
         return adotante;
+    }
+    
+    // Método auxiliar para carregar animais adotados do banco
+    private void carregarAnimaisAdotados(Adotante adotante) throws SQLException {
+        String sql = "SELECT COUNT(*) as total FROM adocoes WHERE adotante_id = ?";
+        try (Connection conn = getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, adotante.getId());
+            try (java.sql.ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int totalAdocoes = rs.getInt("total");
+                    // Popular a lista com objetos "dummy" apenas para contar
+                    // Isso mantém a compatibilidade com o método atingiuLimite()
+                    for (int i = 0; i < totalAdocoes; i++) {
+                        adotante.getAnimaisAdotados().add(null); // null apenas para contar
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -518,6 +547,16 @@ public class MySQLRepositorio implements Repositorio{
             e.printStackTrace();
             throw new Exception("Falha ao listar adotantes.", e);
         }
+        
+        // Carregar animais adotados para cada adotante (após fechar a conexão)
+        for (Adotante adotante : adotantes) {
+            try {
+                carregarAnimaisAdotados(adotante);
+            } catch (SQLException e) {
+                System.err.println("Erro ao carregar animais adotados para " + adotante.getNome() + ": " + e.getMessage());
+                // Não lança exceção, apenas loga o erro
+            }
+        }
 
         return adotantes;
     }
@@ -574,7 +613,7 @@ public class MySQLRepositorio implements Repositorio{
 
         // Usamos JOIN para obter os detalhes do Adotante e do Animal na mesma consulta
         String sql = "SELECT " +
-                "a.id AS adocao_id, a.dataAdocao, " +
+                "a.adocao_id, a.dataAdocao, " +
                 "ad.adotante_id, ad.nome AS adotante_nome, ad.sexo AS adotante_sexo, ad.dataNascimento AS adotante_dataNascimento, " +
                 "an.animal_id, an.nome AS animal_nome, an.peso, an.altura, an.cor, an.sexo AS animal_sexo, an.dataNascimento AS animal_dataNascimento, an.adotado, an.especie " +
                 "FROM adocoes a " +
