@@ -8,6 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import model.Adotante;
 import model.Adocao;
@@ -24,7 +25,7 @@ public class Main {
     static Repositorio repo = new MySQLRepositorio();
     static ServicoAdocao servicoAdocao = new ServicoAdocao(new MySQLRepositorio());
 
-    static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println("Bem-vindo ao Sistema de Adoção de Animais!");
         exibirMenuPrincipal();
         scanner.close();
@@ -54,14 +55,15 @@ public class Main {
                     break;
                 case 4:
                     listarAdocoes();
+                    break;
                 case 0:
                     executando = false;
                     break;
                 default:
                     System.err.println("Opção inválida. Tente novamente.");
             }
-            System.out.println("Obrigado por usar o sistema. Até logo!");
         }
+        System.out.println("Obrigado por usar o sistema. Até logo!");
     }
 
     // * GERENCIAR ANIMAIS
@@ -251,21 +253,28 @@ public class Main {
 
     // * REALIZAR ADOÇÃO
     static void realizarAdocao() throws Exception {
-        System.out.println("\\n--- Realizar Adoção ---");
+        System.out.println("\n--- Realizar Adoção ---");
         System.out.print("Digite o ID do Adotante: ");
         int idAdotante = lerInteiro();
-        System.out.println("Digite o ID do Animal: ");
+        System.out.print("Digite o ID do Animal: ");
         int idAnimal = lerInteiro();
 
         Adotante adotante = repo.buscarAdotantePorId(idAdotante);
+        if(adotante == null){
+            System.err.println("Adotante não encontrado com ID: " + idAdotante);
+            return;
+        }
+
         Animal animal = repo.buscarAnimalPorId(idAnimal);
+        if(animal == null){
+            System.err.println("Animal não encontrado com ID: " + idAnimal);
+            return;
+        }
 
         Adocao adocao = servicoAdocao.realizarAdoção(adotante, animal);
 
-        if(adocao != null){
-            System.out.println("Adoção realizada com sucesso!");
-        } else {
-            System.out.println("Não foi possível realizar a adoção.");
+        if(adocao == null){
+            System.err.println("Não foi possível realizar a adoção. Verifique as mensagens acima.");
         }
     }
 
@@ -274,6 +283,7 @@ public class Main {
         System.out.println("\n--- Listar Adoções ---");
         System.out.println("1. Listar todas");
         System.out.println("2. Filtrar por Adotante");
+        System.out.println("3. Filtrar por Período");
         System.out.print("Escolha uma opção: ");
 
         int opcao = lerInteiro();
@@ -284,9 +294,25 @@ public class Main {
                 adocoes = repo.listaTodasAdocoes();
                 break;
             case 2:
-                System.out.println("Digite o ID do adotante: ");
+                System.out.print("Digite o ID do adotante: ");
                 int idAdotante = lerInteiro();
-                repo.buscarAdocaoPorId(idAdotante);
+                List<Adocao> todasAdocoes = repo.listaTodasAdocoes();
+                adocoes = todasAdocoes.stream()
+                    .filter(adocao -> adocao.getAdotante().getId() == idAdotante)
+                    .collect(Collectors.toList());
+                break;
+            case 3:
+                System.out.println("Digite a data inicial (dd/MM/yyyy): ");
+                LocalDate dataInicial = lerData();
+                System.out.println("Digite a data final (dd/MM/yyyy): ");
+                LocalDate dataFinal = lerData();
+                List<Adocao> todasAdocoesPeriodo = repo.listaTodasAdocoes();
+                adocoes = todasAdocoesPeriodo.stream()
+                    .filter(adocao -> {
+                        LocalDate dataAdocao = adocao.getDataAdocao();
+                        return !dataAdocao.isBefore(dataInicial) && !dataAdocao.isAfter(dataFinal);
+                    })
+                    .collect(Collectors.toList());
                 break;
             default:
                 System.err.println("Opção inválida.");
@@ -297,7 +323,7 @@ public class Main {
             System.out.println("Nenhum registro de adoção encontrado para este filtro.");
             return;
         }
-        System.out.println("\\n-- Registros de Adoção --");
+        System.out.println("\n-- Registros de Adoção --");
         for(Adocao adocao : adocoes){
             System.out.println(adocao.toString());
         }
