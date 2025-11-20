@@ -116,6 +116,6 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return "ID: "+ id + " | Nome: " + nome + " | Adotado: " + (isAdotado() ? "DISPONÍVEL" : "ADOTADO");
+        return "ID: "+ id + " | Nome: " + nome + " | Status: " + (isAdotado() ? "ADOTADO" : "DISPONÍVEL");
     }
 }

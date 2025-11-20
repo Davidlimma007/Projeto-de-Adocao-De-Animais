@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Adocao {
     private int id;
@@ -47,5 +48,12 @@ public class Adocao {
 
     public void setDataAdocao(LocalDate dataAdocao) {
         this.dataAdocao = dataAdocao;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return String.format("ID: %d | Adotante: %s | Animal: %s | Data: %s",
+                id, adotante.getNome(), animal.getNome(), dataAdocao.format(formatter));
     }
 }
