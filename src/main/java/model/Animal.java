@@ -43,11 +43,6 @@ public abstract class Animal {
 
     public abstract String emitirSom();
 
-    @Override
-    public String toString() {
-        return nome + (adotado ? " (Adotado)" : " (Disponível)");
-    }
-
     public int getId() { return id; }
 
     public void setId(int id) { this.id = id; }
@@ -117,5 +112,10 @@ public abstract class Animal {
             throw new AnimalIndisponivelException("O animal já foi adotado");
         }
         this.setAdotado(true);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: "+ id + " | Nome: " + nome + " | Adotado: " + (isAdotado() ? "DISPONÍVEL" : "ADOTADO");
     }
 }

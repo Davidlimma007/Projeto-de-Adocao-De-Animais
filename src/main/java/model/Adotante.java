@@ -80,7 +80,7 @@ public class Adotante {
 
     @Override
     public String toString() {
-        return "model.Adotante: " + getNome() + ". Animais adotados: " + animaisAdotados.size();
+        return "Nome: " + getNome() + "| Data de nascimento: " + getDataNascimento() +" | Animais adotados: " + animaisAdotados.size();
     }
 
 }
