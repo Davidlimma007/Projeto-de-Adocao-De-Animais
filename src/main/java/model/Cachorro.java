@@ -1,17 +1,27 @@
 package model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Cachorro extends Animal implements CuidadosEspeciais {
 
-    public Cachorro(String nome, double peso, double altura, String cor, String sexo, LocalDate dataNascimento) {
-        super(nome, peso, altura, cor, sexo, dataNascimento);
+    public Cachorro(String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento,
+                    boolean adotado) {
+        super(nome, peso, altura, cor, sexo, dataNascimento, adotado, "Cachorro");
+    }
+
+    public Cachorro(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+        super(id, nome, peso, altura, cor, sexo, dataNascimento, adotado, "Cachorro");
+    }
+
+    public Cachorro(String nome, BigDecimal peso, BigDecimal altura, String cor,
+                    char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+
+        super(nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
     }
 
     @Override
-    public void emitirSom() {
-        System.out.println("Au Au!");
-    }
+    public String emitirSom() { return "Au Au!"; }
 
     @Override
     public void vacinar() {

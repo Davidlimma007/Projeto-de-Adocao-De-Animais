@@ -1,17 +1,27 @@
 package model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Gato extends Animal implements CuidadosEspeciais {
 
-    public Gato(String nome, double peso, double altura, String cor,String sexo, LocalDate dataNascimento) {
-        super(nome, peso, altura, cor, sexo, dataNascimento);
+    public Gato(String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento,
+                    boolean adotado) {
+        super(nome, peso, altura, cor, sexo, dataNascimento, adotado, "Gato");
+    }
+
+    public Gato(int id, String nome, BigDecimal peso, BigDecimal altura, String cor, char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+        super(id, nome, peso, altura, cor, sexo, dataNascimento, adotado, "Gato");
+    }
+
+    public Gato(String nome, BigDecimal peso, BigDecimal altura, String cor,
+                    char sexo, LocalDate dataNascimento, boolean adotado, String especie) {
+
+        super(nome, peso, altura, cor, sexo, dataNascimento, adotado, especie);
     }
 
     @Override
-    public void emitirSom() {
-        System.out.println("Miau Miau!");
-    }
+    public String emitirSom() { return "Miau Miau!"; }
 
     @Override
     public void vacinar() {

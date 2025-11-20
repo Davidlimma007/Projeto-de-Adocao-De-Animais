@@ -7,6 +7,8 @@ import model.Adotante;
 import model.Animal;
 import repository.MySQLRepositorio;
 
+import java.time.LocalDate;
+
 public class ServicoAdocao {
     private MySQLRepositorio mySQLRepositorio;
 
@@ -22,9 +24,9 @@ public class ServicoAdocao {
 
             animal.setAdotado(true);
 
-            novaAdocao = new Adocao(adotante, animal);
+            novaAdocao = new Adocao(adotante, animal, LocalDate.now());
 
-            //repositorio.salvarAdocao(novaAdocao);
+            this.mySQLRepositorio.salvarAdocao(novaAdocao);
 
             System.out.println("Adoção realizada com sucesso.");
 

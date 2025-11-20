@@ -7,26 +7,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Adotante {
+    private int id;
     private String nome;
-    private String sexo;
+    private char sexo;
     private LocalDate dataNascimento;
     private List<Animal> animaisAdotados = new ArrayList<>();
 
     private static final int LIMITE_ADOCOES = 3;
 
     //construtor com a inicialização da lista animais adotados
-    public Adotante(String nome, String sexo, LocalDate dataNascimento) {
+    public Adotante(String nome, char sexo, LocalDate dataNascimento) {
         this.nome = nome;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
     }
 
-    // Sobrecarga: construtor só com nome e sexo
-    public Adotante(String nome, String sexo) {
+    //construtor sobrecarregado
+    public Adotante(int id, String nome, char sexo, LocalDate dataNascimento) {
+        this.id = id;
         this.nome = nome;
         this.sexo = sexo;
-        this.animaisAdotados = new ArrayList<>();
+        this.dataNascimento = dataNascimento;
     }
+
+        public int getId(){ return id;}
+
+        public void setId(int id){ this.id = id;}
 
         public String getNome() {
         return nome;
@@ -36,11 +42,11 @@ public class Adotante {
         this.nome = nome;
         }
 
-        public String getSexo() {
+        public char getSexo() {
         return sexo;
         }
 
-        public void setSexo(String sexo) {
+        public void setSexo(char sexo) {
             this.sexo = sexo;
         }
 
@@ -76,4 +82,5 @@ public class Adotante {
     public String toString() {
         return "model.Adotante: " + getNome() + ". Animais adotados: " + animaisAdotados.size();
     }
+
 }

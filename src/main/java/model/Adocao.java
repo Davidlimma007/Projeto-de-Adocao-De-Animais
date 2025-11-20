@@ -3,15 +3,27 @@ package model;
 import java.time.LocalDate;
 
 public class Adocao {
+    private int id;
     private Adotante adotante;
     private Animal animal;
     private LocalDate dataAdocao;
 
-    public Adocao(Adotante adotante, Animal animal) {
+    public Adocao(int id, Adotante adotante, Animal animal, LocalDate dataAdocao) {
+        this.id = id;
         this.adotante = adotante;
         this.animal = animal;
-        this.dataAdocao = LocalDate.now();
+        this.dataAdocao = dataAdocao;
     }
+
+    public Adocao(Adotante adotante, Animal animal, LocalDate dataAdocao){
+        this.adotante = adotante;
+        this.animal = animal;
+        this.dataAdocao = dataAdocao;
+    }
+
+    public int getId(){return id;}
+
+    public void setId(int id) { this.id = id;}
 
     public Adotante getAdotante() {
         return adotante;
