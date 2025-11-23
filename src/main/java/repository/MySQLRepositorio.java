@@ -638,6 +638,7 @@ public class MySQLRepositorio implements Repositorio{
                 String especie = rs.getString("especie");
                 Animal animal;
 
+
                 // Mapeamento dos 9 parâmetros do Animal/Cachorro/Gato
                 String animalNome = rs.getString("animal_nome");
                 BigDecimal peso = rs.getBigDecimal("peso");
