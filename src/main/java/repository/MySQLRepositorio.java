@@ -613,7 +613,7 @@ public class MySQLRepositorio implements Repositorio{
 
         // Usamos JOIN para obter os detalhes do Adotante e do Animal na mesma consulta
         String sql = "SELECT " +
-                "a.adocao_id, a.dataAdocao, " +
+                "a.id AS adocao_id, a.dataAdocao, " +
                 "ad.adotante_id, ad.nome AS adotante_nome, ad.sexo AS adotante_sexo, ad.dataNascimento AS adotante_dataNascimento, " +
                 "an.animal_id, an.nome AS animal_nome, an.peso, an.altura, an.cor, an.sexo AS animal_sexo, an.dataNascimento AS animal_dataNascimento, an.adotado, an.especie " +
                 "FROM adocoes a " +
